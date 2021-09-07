@@ -1,0 +1,12 @@
+.single-product-img {
+  height: 360;
+  object-fit: cover;
+}
+
+.single-product-title {
+  font-size: 30px;
+}
+
+.single-product-price {
+  font-size: 15px;
+}
