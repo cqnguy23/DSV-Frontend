@@ -26,7 +26,7 @@ const getSingleProduct = (id) => async (dispatch) => {
     let url = "/products/" + id;
 
     const resp = await api.get(url);
-    const data = resp.data.product;
+    const data = resp.data;
     console.log(data);
     dispatch({ type: types.GET_SINGLE_PRODUCT_SUCCESS, payload: data });
   } catch (err) {
