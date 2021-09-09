@@ -87,6 +87,9 @@ const NavBar = () => {
   const onRegisterFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  const handleLogOut = () => {
+    dispatch(userActions.logout());
+  };
   return (
     <>
       <Layout className="header-layout">
@@ -110,7 +113,14 @@ const NavBar = () => {
             </Col>
             <Col className="header-col flex-end" span={6}>
               {isLoggedIn ? (
-                <Col>Welcome back, {userName}!</Col>
+                <>
+                  <div style={{ marginRight: "10px" }}>
+                    Welcome back, {userName}!
+                  </div>
+                  <Button size="small" onClick={handleLogOut}>
+                    Log Out
+                  </Button>
+                </>
               ) : (
                 <>
                   {" "}
@@ -140,7 +150,7 @@ const NavBar = () => {
               )}
               <a href="/#">
                 <ShoppingCartOutlined
-                  style={{ fontSize: "24px", marginLeft: "29px" }}
+                  style={{ fontSize: "24px", marginLeft: "10px" }}
                 />
               </a>
             </Col>

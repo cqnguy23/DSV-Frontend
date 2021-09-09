@@ -53,7 +53,7 @@ userActions.resgister =
       const data = await resp.data;
       const user = await resp.data.user;
       const accessToken = await resp.data.accessToken;
-      dispatch({ type: types.USER_REGISTER_SUCCESS, payload: data });
+      dispatch({ type: types.USER_REGISTER_SUCCESS, payload: user });
       toast.success("Registration Success!", {
         position: "top-right",
         autoClose: 5000,
@@ -79,4 +79,14 @@ userActions.resgister =
       });
     }
   };
+
+userActions.logout = () => (dispatch) => {
+  dispatch({ type: types.USER_LOGOUT_REQUEST, payload: null });
+
+  try {
+    dispatch({ type: types.USER_LOGOUT_SUCCESS, payload: null });
+  } catch (err) {
+    dispatch({ type: types.USER_LOGOUT_FAILURE, payload: err });
+  }
+};
 export default userActions;
