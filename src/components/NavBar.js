@@ -25,24 +25,23 @@ const NavBar = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const userName = useSelector((state) => state.user.name);
   const onSearch = () => {};
-  const onClick = () => {
-    history.push("/products");
+  const onMenClick = () => {
+    history.push("/products/men");
+  };
+  const onWomenClick = () => {
+    history.push("/products/women");
   };
   const toHomePage = () => {
     history.push("/");
   };
   const menMenu = (
-    <Menu onClick={onClick}>
-      <Menu.Item key="1">1st menu item</Menu.Item>
-      <Menu.Item key="2">2nd menu item</Menu.Item>
-      <Menu.Item key="3">3rd menu item</Menu.Item>
+    <Menu onClick={onMenClick}>
+      <Menu.Item key="1">All</Menu.Item>
     </Menu>
   );
   const womenMenu = (
-    <Menu onClick={onClick}>
-      <Menu.Item key="1">1st menu item</Menu.Item>
-      <Menu.Item key="2">2nd menu item</Menu.Item>
-      <Menu.Item key="3">3rd menu item</Menu.Item>
+    <Menu onClick={onWomenClick}>
+      <Menu.Item key="1">All</Menu.Item>
     </Menu>
   );
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);

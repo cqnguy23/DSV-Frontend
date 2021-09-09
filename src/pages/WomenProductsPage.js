@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { ClipLoader } from "react-spinners";
 import productsAction from "../redux/actions/products.actions";
-const ProductsPage = () => {
+const WomenProductsPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const loading = useSelector((state) => state.products.loading);
@@ -19,10 +19,10 @@ const ProductsPage = () => {
     setPage(page);
   };
   const onProductClick = (id) => {
-    history.push(`products/${id}`);
+    history.push(`/products/${id}`);
   };
   useEffect(() => {
-    dispatch(productsAction.getAllProducts(page, limit));
+    dispatch(productsAction.getWomenProducts(page, limit));
   }, [dispatch, page]);
 
   return (
@@ -74,6 +74,7 @@ const ProductsPage = () => {
                     }}
                   >
                     <div className="header-col-title"> {product.name} </div>
+
                     <div className="header-col-price"> {product.price}$ </div>
                   </Card>
                 </Col>
@@ -96,4 +97,4 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default WomenProductsPage;

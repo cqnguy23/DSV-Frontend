@@ -12,9 +12,9 @@ const initialState = {
 const productsReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case types.GET_ALL_PRODUCTS_REQUEST:
+    case types.GET_WOMEN_PRODUCTS_REQUEST:
       return { ...state, loading: true };
-    case types.GET_ALL_PRODUCTS_SUCCESS:
+    case types.GET_WOMEN_PRODUCTS_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -22,7 +22,20 @@ const productsReducer = (state = initialState, action) => {
         total: payload.numsTotal,
         page: payload.page,
       };
-    case types.GET_ALL_PRODUCTS_FAILURE:
+    case types.GET_WOMEN_PRODUCTS_FAILURE:
+      return { ...state, loading: true };
+
+    case types.GET_MEN_PRODUCTS_REQUEST:
+      return { ...state, loading: true };
+    case types.GET_MEN_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: payload.products,
+        total: payload.numsTotal,
+        page: payload.page,
+      };
+    case types.GET_MEN_PRODUCTS_FAILURE:
       return { ...state, loading: true };
 
     case types.GET_SINGLE_PRODUCT_REQUEST:
