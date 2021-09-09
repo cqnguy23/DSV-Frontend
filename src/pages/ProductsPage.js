@@ -12,8 +12,9 @@ const ProductsPage = () => {
   const loading = useSelector((state) => state.products.loading);
   const products = useSelector((state) => state.products.data);
   const numsProducts = useSelector((state) => state.products.total);
+  const initPage = useSelector((state) => state.products.page);
   const limit = 20;
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initPage);
   const handlePageChange = (page, totalPage) => {
     setPage(page);
   };

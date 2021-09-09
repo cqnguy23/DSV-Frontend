@@ -13,7 +13,7 @@ productActions.getAllProducts = (page, limit) => async (dispatch) => {
     }
     const resp = await api.get(url);
     const data = await resp.data;
-    console.log(data);
+    data.page = page;
     dispatch({ type: types.GET_ALL_PRODUCTS_SUCCESS, payload: data });
   } catch (err) {
     dispatch({ type: types.GET_ALL_PRODUCTS_FAILURE, payload: err });

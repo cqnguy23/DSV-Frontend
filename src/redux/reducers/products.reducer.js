@@ -6,6 +6,7 @@ const initialState = {
   selectedProduct: {},
   cartProducts: [],
   total: 0,
+  page: 1,
 };
 
 const productsReducer = (state = initialState, action) => {
@@ -19,6 +20,7 @@ const productsReducer = (state = initialState, action) => {
         loading: false,
         data: payload.products,
         total: payload.numsTotal,
+        page: payload.page,
       };
     case types.GET_ALL_PRODUCTS_FAILURE:
       return { ...state, loading: true };

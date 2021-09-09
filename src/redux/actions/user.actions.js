@@ -85,6 +85,15 @@ userActions.logout = () => (dispatch) => {
 
   try {
     dispatch({ type: types.USER_LOGOUT_SUCCESS, payload: null });
+    toast.success("Logged Out Successfully!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   } catch (err) {
     dispatch({ type: types.USER_LOGOUT_FAILURE, payload: err });
   }
