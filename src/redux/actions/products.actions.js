@@ -1,7 +1,7 @@
 import api from "../../api";
 import * as types from "../constants/products.constant";
-
-const getAllProducts = (page, limit) => async (dispatch) => {
+const productActions = {};
+productActions.getAllProducts = (page, limit) => async (dispatch) => {
   dispatch({ type: types.GET_ALL_PRODUCTS_REQUEST, payload: null });
   try {
     let url = "/products";
@@ -12,7 +12,7 @@ const getAllProducts = (page, limit) => async (dispatch) => {
       url += `&limit=${limit}`;
     }
     const resp = await api.get(url);
-    const data = resp.data;
+    const data = await resp.data;
     console.log(data);
     dispatch({ type: types.GET_ALL_PRODUCTS_SUCCESS, payload: data });
   } catch (err) {
@@ -20,7 +20,7 @@ const getAllProducts = (page, limit) => async (dispatch) => {
   }
 };
 
-const getSingleProduct = (id) => async (dispatch) => {
+productActions.getSingleProduct = (id) => async (dispatch) => {
   dispatch({ type: types.GET_SINGLE_PRODUCT_REQUEST, payload: null });
   try {
     let url = "/products/" + id;
@@ -34,7 +34,4 @@ const getSingleProduct = (id) => async (dispatch) => {
   }
 };
 
-export const productsAction = {
-  getAllProducts,
-  getSingleProduct,
-};
+export default productActions;

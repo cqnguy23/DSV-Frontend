@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { ClipLoader } from "react-spinners";
-import { productsAction } from "../redux/actions/products.actions";
+import productsAction from "../redux/actions/products.actions";
 const ProductsPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -20,7 +20,6 @@ const ProductsPage = () => {
   const onProductClick = (id) => {
     history.push(`products/${id}`);
   };
-
   useEffect(() => {
     dispatch(productsAction.getAllProducts(page, limit));
   }, [dispatch, page]);
@@ -63,7 +62,11 @@ const ProductsPage = () => {
                     hoverable
                     style={{ width: "180px", height: "345px" }}
                     cover={
-                      <img alt="product" src={product.imgURL} height="270px" />
+                      <img
+                        alt="product"
+                        src={product.imgURL[0]}
+                        height="270px"
+                      />
                     }
                     onClick={() => {
                       onProductClick(product._id);
