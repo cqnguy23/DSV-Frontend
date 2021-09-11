@@ -14,7 +14,6 @@ userActions.login =
       });
       const user = await resp.data.user;
       const accessToken = await resp.data.accessToken;
-      console.log(user);
       dispatch({ type: types.USER_LOGIN_SUCCESS, payload: user });
       toast.success("Login Success!", {
         position: "top-right",
@@ -50,7 +49,6 @@ userActions.resgister =
         password,
         name,
       });
-      const data = await resp.data;
       const user = await resp.data.user;
       const accessToken = await resp.data.accessToken;
       dispatch({ type: types.USER_REGISTER_SUCCESS, payload: user });

@@ -23,7 +23,7 @@ const productsReducer = (state = initialState, action) => {
         page: payload.page,
       };
     case types.GET_WOMEN_PRODUCTS_FAILURE:
-      return { ...state, loading: true };
+      return { ...state, loading: false };
 
     case types.GET_MEN_PRODUCTS_REQUEST:
       return { ...state, loading: true };
@@ -36,7 +36,7 @@ const productsReducer = (state = initialState, action) => {
         page: payload.page,
       };
     case types.GET_MEN_PRODUCTS_FAILURE:
-      return { ...state, loading: true };
+      return { ...state, loading: false };
 
     case types.GET_SINGLE_PRODUCT_REQUEST:
       return { ...state, loading: true };
@@ -47,7 +47,7 @@ const productsReducer = (state = initialState, action) => {
         selectedProduct: payload,
       };
     case types.GET_SINGLE_PRODUCT_FAILURE:
-      return { ...state, loading: true };
+      return { ...state, loading: false };
     default:
       return state;
   }

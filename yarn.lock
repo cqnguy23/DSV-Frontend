@@ -10006,6 +10006,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.1.tgz"
   "version" "17.0.1"
 
+"react-qty-picker@^1.0.6":
+  "integrity" "sha512-I2wt8ud7Pzunk+K5bXb912clkIhvVbtsKYfQaaRH8gCCbYjKdDmU6spS9ZeQlUkfbDXG8TjUiibFYPeq7sfvVA=="
+  "resolved" "https://registry.npmjs.org/react-qty-picker/-/react-qty-picker-1.0.6.tgz"
+  "version" "1.0.6"
+
 "react-redux@^7.2.5":
   "integrity" "sha512-Dt29bNyBsbQaysp6s/dN0gUodcq+dVKKER8Qv82UrpeygwYeX1raTtil7O/fftw/rFqzaf6gJhDZRkkZnn6bjg=="
   "resolved" "https://registry.npmjs.org/react-redux/-/react-redux-7.2.5.tgz"

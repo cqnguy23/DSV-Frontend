@@ -26,10 +26,10 @@ const NavBar = () => {
   const userName = useSelector((state) => state.user.name);
   const onSearch = () => {};
   const onMenClick = () => {
-    history.push("/products/men");
+    history.push("/products/category/men");
   };
   const onWomenClick = () => {
-    history.push("/products/women");
+    history.push("/products/category/women");
   };
   const toHomePage = () => {
     history.push("/");
@@ -324,7 +324,7 @@ const NavBar = () => {
           </Form.Item>
 
           <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox>Remember password</Checkbox>
           </Form.Item>
 
           <Form.Item>

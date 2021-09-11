@@ -5,6 +5,7 @@ const initialState = {
   email: "",
   isLoggedIn: false,
   loading: false,
+  cart: [],
 };
 
 const userReducer = (state = initialState, action) => {

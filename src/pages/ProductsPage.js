@@ -3,17 +3,19 @@ import { Breadcrumb, Card, Col, Layout, Pagination, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { ClipLoader } from "react-spinners";
 import productsAction from "../redux/actions/products.actions";
-const WomenProductsPage = () => {
+const ProductsPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const loading = useSelector((state) => state.products.loading);
+  //   const loading = useSelector((state) => state.products.loading);
   const products = useSelector((state) => state.products.data);
   const numsProducts = useSelector((state) => state.products.total);
   const initPage = useSelector((state) => state.products.page);
   const limit = 20;
+  const params = useParams();
+  const gender = params.gender;
   const [page, setPage] = useState(initPage);
   const handlePageChange = (page, totalPage) => {
     setPage(page);
@@ -22,9 +24,8 @@ const WomenProductsPage = () => {
     history.push(`/products/${id}`);
   };
   useEffect(() => {
-    dispatch(productsAction.getWomenProducts(page, limit));
-  }, [dispatch, page]);
-
+    dispatch(productsAction.getProducts(page, limit, gender));
+  }, [dispatch, page, gender]);
   return (
     <Layout className="products-page">
       <Breadcrumb className="header-breadcrumb">
@@ -36,7 +37,6 @@ const WomenProductsPage = () => {
           <span>Skirt</span>
         </Breadcrumb.Item>
       </Breadcrumb>
-
       <Content className="products content">
         <Col span={4} className="sidebar"></Col>
         <Col span={20}>
@@ -74,7 +74,6 @@ const WomenProductsPage = () => {
                     }}
                   >
                     <div className="header-col-title"> {product.name} </div>
-
                     <div className="header-col-price"> {product.price}$ </div>
                   </Card>
                 </Col>
@@ -96,5 +95,4 @@ const WomenProductsPage = () => {
     </Layout>
   );
 };
-
-export default WomenProductsPage;
+export default ProductsPage;
