@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductsPage from "./pages/ProductsPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
@@ -28,10 +29,15 @@ function App() {
           <Route exact path="/" component={HomePage} />
           <Route
             exact
-            path="/products/category/:gender"
+            path="/products/gender/:gender"
             component={ProductsPage}
           />
-          <Route exact path="/products/:id" component={SingleProductPage} />
+          <Route
+            exact
+            path="/products/gender/:gender/:id"
+            component={SingleProductPage}
+          />
+          <Route exact path="/cart" component={CartPage} />
         </Switch>
         <FooterComponent />
       </Router>

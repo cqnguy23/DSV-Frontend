@@ -5,41 +5,67 @@ import { QuantityPicker } from "react-qty-picker";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import StarsRating from "stars-rating";
 
 import { ClipLoader } from "react-spinners";
 import productsAction from "../redux/actions/products.actions";
+import cartActions from "../redux/actions/cart.actions";
+import BreadCrumb from "../components/BreadCrumb";
 const SingleProductPage = () => {
-  const product = useSelector((state) => state.products.selectedProduct);
-
+  const [currentQuantity, setCurrentQuantity] = useState(0);
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [size, setSize] = useState();
-  const handleSizeS = () => {
-    setSize("s");
+  const params = useParams();
+  console.log(params);
+  const id = params.id;
+  const handleSize = (size) => {
+    setSize(size);
   };
-  const handleSizeM = () => {
-    setSize("m");
-  };
-  const handleSizeL = () => {
-    setSize("l");
+  const getSelectedValue = (value) => {
+    setSelectedQuantity(value);
   };
   const changeRating = (newRating) => {
     setRating(newRating);
   };
   const loading = useSelector((state) => state.products.loading);
-  const params = useParams();
   const dispatch = useDispatch();
   const [rating, setRating] = useState(0);
-  const id = params.id;
+  const product = useSelector(
+    (state) => state.products.selectedProduct.product
+  );
+  const quantity = useSelector(
+    (state) => state.products.selectedProduct.quantity
+  );
+
+  const handleAddToCart = () => {
+    const addedProduct = {
+      id: product._id,
+      name: product.name,
+      quantity: selectedQuantity,
+      size: size,
+      price: product.price,
+      imgURL: product.imgURL[0],
+      color: product.color,
+      maxQuantity: currentQuantity,
+    };
+    dispatch(cartActions.addToCart(addedProduct));
+  };
   useEffect(() => {
     dispatch(productsAction.getSingleProduct(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
-  console.log(product);
-  console.log(size);
+  useEffect(() => {
+    if (size) {
+      setCurrentQuantity(product.size[size]);
+    } else {
+      setCurrentQuantity(quantity);
+    }
+  }, [quantity, size]);
+  console.log(loading);
   return (
     <>
       <Content className="single-product-content">
-        {!product ? (
+        <BreadCrumb />
+        {loading ? (
           <ClipLoader />
         ) : (
           <Row className="single-product-row">
@@ -88,7 +114,7 @@ const SingleProductPage = () => {
                 <div className="single-product-title"> {product.name}</div>
                 <div className="single-product-price"> ${product.price}</div>
                 <div>
-                  <em>In stock: {product.size ? product.size[size] : ""}</em>{" "}
+                  <em>In stock: {currentQuantity}</em>{" "}
                 </div>
                 <br />
                 <div style={{ display: "flex", marginBottom: "10px" }}>
@@ -115,7 +141,9 @@ const SingleProductPage = () => {
                   <Radio.Button
                     value="s"
                     disabled={product.size?.s === 0 ? true : false}
-                    onClick={handleSizeS}
+                    onClick={() => {
+                      handleSize("s");
+                    }}
                   >
                     S
                   </Radio.Button>
@@ -123,7 +151,9 @@ const SingleProductPage = () => {
                     value="m"
                     disabled={product.size?.m === 0 ? true : false}
                     // disabled={availableSize.includes("m") ? false : true}
-                    onClick={handleSizeM}
+                    onClick={() => {
+                      handleSize("m");
+                    }}
                   >
                     M
                   </Radio.Button>
@@ -131,7 +161,9 @@ const SingleProductPage = () => {
                     value="l"
                     disabled={product.size?.l === 0 ? true : false}
                     // disabled={availableSize.includes("l") ? false : true}
-                    onClick={handleSizeL}
+                    onClick={() => {
+                      handleSize("l");
+                    }}
                   >
                     L
                   </Radio.Button>
@@ -145,9 +177,18 @@ const SingleProductPage = () => {
                   }}
                 >
                   <div>Quantity</div>
-                  <QuantityPicker smooth min={0} max={product.quantity} />
+                  <QuantityPicker
+                    smooth
+                    min={0}
+                    max={product?.size ? product?.size[size] : 0}
+                    onChange={getSelectedValue}
+                  />
                 </div>
-                <Button type="primary" className="single-product-add-btn">
+                <Button
+                  type="primary"
+                  className="single-product-add-btn"
+                  onClick={handleAddToCart}
+                >
                   Add to cart
                 </Button>
               </div>

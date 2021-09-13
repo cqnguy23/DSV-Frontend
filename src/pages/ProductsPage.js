@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import { ClipLoader } from "react-spinners";
+import BreadCrumb from "../components/BreadCrumb";
 import productsAction from "../redux/actions/products.actions";
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const ProductsPage = () => {
   //   const loading = useSelector((state) => state.products.loading);
   const products = useSelector((state) => state.products.data);
   const numsProducts = useSelector((state) => state.products.total);
+  const genderRedux = useSelector((state) => state.products.gender);
   const initPage = useSelector((state) => state.products.page);
   const limit = 20;
   const params = useParams();
@@ -21,22 +23,18 @@ const ProductsPage = () => {
     setPage(page);
   };
   const onProductClick = (id) => {
-    history.push(`/products/${id}`);
+    history.push(`/products/gender/${gender}/${id}`);
   };
   useEffect(() => {
     dispatch(productsAction.getProducts(page, limit, gender));
   }, [dispatch, page, gender]);
+  useEffect(() => {
+    if (genderRedux != gender) setPage(1);
+  }, [gender]); //reset page when switch to different gender
+  console.log(genderRedux);
   return (
     <Layout className="products-page">
-      <Breadcrumb className="header-breadcrumb">
-        <Breadcrumb.Item href="">
-          <WomanOutlined />
-          <span>Ladies</span>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item href="">
-          <span>Skirt</span>
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <BreadCrumb />
       <Content className="products content">
         <Col span={4} className="sidebar"></Col>
         <Col span={20}>

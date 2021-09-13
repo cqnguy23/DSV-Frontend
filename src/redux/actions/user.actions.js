@@ -1,6 +1,7 @@
 import * as types from "../constants/user.constants";
 import api from "../../api";
 import { toast } from "react-toastify";
+import toastAction from "../../toastAction";
 const userActions = {};
 
 userActions.login =
@@ -15,27 +16,11 @@ userActions.login =
       const user = await resp.data.user;
       const accessToken = await resp.data.accessToken;
       dispatch({ type: types.USER_LOGIN_SUCCESS, payload: user });
-      toast.success("Login Success!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastAction.success("Login Success!");
       setIsLogInModalVisible(false);
     } catch (err) {
       dispatch({ type: types.USER_LOGIN_FAILURE, payload: null });
-      toast.error(err.response.data, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastAction.error(err);
     }
   };
 
@@ -52,29 +37,14 @@ userActions.resgister =
       const user = await resp.data.user;
       const accessToken = await resp.data.accessToken;
       dispatch({ type: types.USER_REGISTER_SUCCESS, payload: user });
-      toast.success("Registration Success!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastAction.success("Registration Success!");
+
       setIsRegisterModalVisible(false);
       // console.log(user);
     } catch (err) {
       console.log({ err });
       dispatch({ type: types.USER_REGISTER_FAILURE, payload: err });
-      toast.error(err.response.data, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastAction.error("Registration Failed!");
     }
   };
 
@@ -83,15 +53,7 @@ userActions.logout = () => (dispatch) => {
 
   try {
     dispatch({ type: types.USER_LOGOUT_SUCCESS, payload: null });
-    toast.success("Logged Out Successfully!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    toastAction.success("Log out successfully!");
   } catch (err) {
     dispatch({ type: types.USER_LOGOUT_FAILURE, payload: err });
   }

@@ -4,20 +4,26 @@ import { useHistory } from "react-router";
 import cover from "../image/cover1.jpeg";
 import menImg from "../image/men.jpeg";
 import womenImg from "../image/women.jpeg";
+import girlsImg from "../image/girls.jpg";
+import boysImg from "../image/boys.jpeg";
 const HomePage = () => {
   const history = useHistory();
-  const onMenClick = () => {
-    history.push("/products/category/men");
-  };
-  const onWomenClick = () => {
-    history.push("/products/category/women");
+
+  const onClick = (gender) => {
+    history.push("/products/gender/" + gender);
   };
   return (
     <Layout className="homepage-layout">
       <Row className="position-relative">
         <img alt="cover" width="100%" height="100%" src={cover} />
         <div className="top-right">OUTFIT OF THE WEEK</div>
-        <Button type="primary" className="bottom-right" onClick={onWomenClick}>
+        <Button
+          type="primary"
+          className="bottom-right"
+          onClick={() => {
+            onClick("women");
+          }}
+        >
           Shop Now
         </Button>
       </Row>
@@ -29,24 +35,64 @@ const HomePage = () => {
           marginTop: "10px",
         }}
       >
-        <Col className="position-relative width-49">
+        <Col className="position-relative width-24">
           <img alt="men" width="100%" height="100%" src={menImg} />
           <div className="bottom-centered">
             <div>Men</div>
             <Divider style={{ margin: "5px", color: "white" }} />
-            <Button type="primary" onClick={onMenClick}>
+            <Button
+              type="primary"
+              onClick={() => {
+                onClick("men");
+              }}
+            >
               Shop now
             </Button>
           </div>
         </Col>
         <Col></Col>
-        <Col className="position-relative width-49">
+        <Col className="position-relative width-24">
           <img alt="woman" width="100%" height="100%" src={womenImg} />
           <div className="bottom-centered">
             <div>Women</div>
             <Divider style={{ margin: "5px", color: "white" }} />
-            <Button type="primary" onClick={onWomenClick}>
+            <Button
+              type="primary"
+              onClick={() => {
+                onClick("women");
+              }}
+            >
               Shop now
+            </Button>
+          </div>
+        </Col>
+        <Col className="position-relative width-24">
+          <img alt="woman" width="100%" height="100%" src={boysImg} />
+          <div className="bottom-centered">
+            <div>Boys</div>
+            <Divider style={{ margin: "5px", color: "white" }} />
+            <Button
+              type="primary"
+              onClick={() => {
+                onClick("boys");
+              }}
+            >
+              Shop now
+            </Button>
+          </div>
+        </Col>
+        <Col className="position-relative width-24">
+          <img alt="woman" width="100%" height="100%" src={girlsImg} />
+          <div className="bottom-centered">
+            <div>Girls</div>
+            <Divider style={{ margin: "5px", color: "white" }} />
+            <Button
+              type="primary"
+              onClick={() => {
+                onClick("girls");
+              }}
+            >
+              Girls
             </Button>
           </div>
         </Col>

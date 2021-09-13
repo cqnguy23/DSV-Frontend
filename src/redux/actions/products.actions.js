@@ -2,9 +2,9 @@ import api from "../../api";
 import * as types from "../constants/products.constant";
 const productActions = {};
 productActions.getProducts = (page, limit, gender) => async (dispatch) => {
-  dispatch({ type: types.GET_WOMEN_PRODUCTS_REQUEST, payload: null });
+  dispatch({ type: types.GET_PRODUCTS_REQUEST, payload: null });
   try {
-    let url = "/products/category/" + gender;
+    let url = "/products/gender/" + gender;
     if (page) {
       url += `?page=${page}`;
     }
@@ -14,9 +14,10 @@ productActions.getProducts = (page, limit, gender) => async (dispatch) => {
     const resp = await api.get(url);
     const data = await resp.data;
     data.page = page;
-    dispatch({ type: types.GET_WOMEN_PRODUCTS_SUCCESS, payload: data });
+    data.gender = gender;
+    dispatch({ type: types.GET_PRODUCTS_SUCCESS, payload: data });
   } catch (err) {
-    dispatch({ type: types.GET_WOMEN_PRODUCTS_FAILURE, payload: err });
+    dispatch({ type: types.GET_PRODUCTS_FAILURE, payload: err });
   }
 };
 
