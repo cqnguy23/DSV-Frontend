@@ -16,6 +16,7 @@ userActions.login =
       const user = await resp.data.user;
       const accessToken = await resp.data.accessToken;
       dispatch({ type: types.USER_LOGIN_SUCCESS, payload: user });
+      api.defaults.headers.common["authorization"] = "Bearer " + accessToken;
       toastAction.success("Login Success!");
       setIsLogInModalVisible(false);
     } catch (err) {
@@ -37,6 +38,8 @@ userActions.resgister =
       const user = await resp.data.user;
       const accessToken = await resp.data.accessToken;
       dispatch({ type: types.USER_REGISTER_SUCCESS, payload: user });
+      api.defaults.headers.common["authorization"] = "Bearer " + accessToken;
+
       toastAction.success("Registration Success!");
 
       setIsRegisterModalVisible(false);

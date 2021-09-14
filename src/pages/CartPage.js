@@ -3,10 +3,24 @@ import { Content, Header } from "antd/lib/layout/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { QuantityPicker } from "react-qty-picker";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import cartActions from "../redux/actions/cart.actions";
 
 const CartPage = () => {
+  const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart.products);
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const handleDeleteItem = (productID) => {
+    dispatch(cartActions.removeItem(productID));
+  };
+  const handleQuantityPicker = (value, id) => {
+    dispatch(cartActions.updateItem(id, value));
+    console.log("Here");
+  };
+  const handleSubmitOrder = () => {
+    dispatch(cartActions.submitOrder(cartProducts, totalAmount));
+  };
+
   console.log(cartProducts);
   return (
     <Layout>
@@ -49,7 +63,13 @@ const CartPage = () => {
                                 Change
                               </Button>
                               {"|"}
-                              <Button type="text" size="small">
+                              <Button
+                                type="text"
+                                size="small"
+                                onClick={() => {
+                                  handleDeleteItem(product.id);
+                                }}
+                              >
                                 Remove
                               </Button>
                             </Row>
@@ -59,7 +79,16 @@ const CartPage = () => {
                       <Col span={3} className="cart-color">
                         <div
                           class="circle"
-                          style={{ backgroundColor: `${product.color}` }}
+                          style={
+                            product.color == "Other" || product.color == "Coal"
+                              ? {
+                                  backgroundImage:
+                                    "linear-gradient(red, yellow, green)",
+                                }
+                              : product.color == "White"
+                              ? { backgroundColor: "grey" }
+                              : { backgroundColor: `${product.color}` }
+                          }
                         ></div>
                       </Col>
                       <Col span={3} className="cart-size">
@@ -68,13 +97,16 @@ const CartPage = () => {
                       <Col span={6} className="cart-quantity">
                         <QuantityPicker
                           smooth
-                          min={0}
+                          min={1}
                           max={product.maxQuantity}
                           value={product.quantity}
+                          onChange={(value) => {
+                            handleQuantityPicker(value, product.id);
+                          }}
                         />
                       </Col>
                       <Col span={4} className="cart-amount">
-                        ${product.price}
+                        ${product.totalPrice}
                       </Col>
                     </Row>
                   </>
@@ -90,14 +122,20 @@ const CartPage = () => {
                 </Row>
                 <Row className="flex-justify-between">
                   <Col>Total Product:</Col>
-                  <Col>$1000</Col>
+                  <Col>${totalAmount}</Col>
                 </Row>
                 <Divider />
                 <Row className="flex-justify-between">
                   <Col className="total-title">Subtotal:</Col>
-                  <Col>$1000</Col>
+                  <Col>${totalAmount}</Col>
                 </Row>
               </div>
+              <Row>
+                <Button type="primary" onClick={handleSubmitOrder}>
+                  {" "}
+                  Checkout{" "}
+                </Button>
+              </Row>
             </Col>
           </Row>
         )}

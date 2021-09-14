@@ -46,7 +46,9 @@ const SingleProductPage = () => {
       imgURL: product.imgURL[0],
       color: product.color,
       maxQuantity: currentQuantity,
+      totalPrice: (product.price * selectedQuantity).toFixed(2),
     };
+    console.log(addedProduct.totalPrice);
     dispatch(cartActions.addToCart(addedProduct));
   };
   useEffect(() => {
