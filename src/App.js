@@ -8,12 +8,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductsPage from "./pages/ProductsPage";
 import CartPage from "./pages/CartPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <>
       <Router>
-        <NavBar />
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -26,20 +28,36 @@ function App() {
           pauseOnHover
         />
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route
-            exact
-            path="/products/gender/:gender"
-            component={ProductsPage}
-          />
-          <Route
-            exact
-            path="/products/gender/:gender/:id"
-            component={SingleProductPage}
-          />
-          <Route exact path="/cart" component={CartPage} />
+          <Route path="/admin">
+            <Switch>
+              <Route exact path="/admin/login" component={AdminLoginPage} />
+              <ProtectedRoute
+                exact
+                path="/admin/dashboard"
+                component={AdminDashboardPage}
+              />
+            </Switch>
+          </Route>
+          <Route path="/">
+            <NavBar />
+
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route
+                exact
+                path="/products/gender/:gender"
+                component={ProductsPage}
+              />
+              <Route
+                exact
+                path="/products/gender/:gender/:id"
+                component={SingleProductPage}
+              />
+              <Route exact path="/cart" component={CartPage} />
+            </Switch>
+            <FooterComponent />
+          </Route>
         </Switch>
-        <FooterComponent />
       </Router>
     </>
   );

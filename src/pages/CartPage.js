@@ -1,9 +1,9 @@
 import { Button, Col, Divider, Image, Layout, Row } from "antd";
-import { Content, Header } from "antd/lib/layout/layout";
+import { Content } from "antd/lib/layout/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { QuantityPicker } from "react-qty-picker";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import cartActions from "../redux/actions/cart.actions";
 
 const CartPage = () => {
@@ -15,18 +15,16 @@ const CartPage = () => {
   };
   const handleQuantityPicker = (value, id) => {
     dispatch(cartActions.updateItem(id, value));
-    console.log("Here");
   };
   const handleSubmitOrder = () => {
     dispatch(cartActions.submitOrder(cartProducts, totalAmount));
   };
 
-  console.log(cartProducts);
   return (
     <Layout>
       <Content className="bg-white">
         <Row className="cart-header">My Bag</Row>
-        {cartProducts.length == 0 ? (
+        {cartProducts.length === 0 ? (
           <div>Please select a product to proceed!</div>
         ) : (
           <Row>
@@ -48,9 +46,9 @@ const CartPage = () => {
               </Row>
               {cartProducts.map((product, idx) => {
                 return (
-                  <>
+                  <div key={idx}>
                     <Divider style={{ margin: "10px" }} />
-                    <Row key={idx} className="card-row">
+                    <Row className="card-row">
                       <Col span={8}>
                         <Row style={{ flexWrap: "nowrap" }}>
                           <Col>
@@ -78,14 +76,15 @@ const CartPage = () => {
                       </Col>
                       <Col span={3} className="cart-color">
                         <div
-                          class="circle"
+                          className="circle"
                           style={
-                            product.color == "Other" || product.color == "Coal"
+                            product.color === "Other" ||
+                            product.color === "Coal"
                               ? {
                                   backgroundImage:
                                     "linear-gradient(red, yellow, green)",
                                 }
-                              : product.color == "White"
+                              : product.color === "White"
                               ? { backgroundColor: "grey" }
                               : { backgroundColor: `${product.color}` }
                           }
@@ -109,7 +108,7 @@ const CartPage = () => {
                         ${product.totalPrice}
                       </Col>
                     </Row>
-                  </>
+                  </div>
                 );
               })}
             </Col>

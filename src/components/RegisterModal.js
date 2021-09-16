@@ -6,6 +6,7 @@ import userActions from "../redux/actions/user.actions";
 const RegisterModal = ({
   isRegisterModalVisible,
   setIsRegisterModalVisible,
+  setIsLogInModalVisible,
 }) => {
   const dispatch = useDispatch();
   const handleRegisterOk = () => {
@@ -20,6 +21,10 @@ const RegisterModal = ({
       userActions.resgister(email, password, name, setIsRegisterModalVisible)
     );
   };
+  const handleOpenLogin = () => {
+    setIsLogInModalVisible(true);
+    setIsRegisterModalVisible(false);
+  };
   const onRegisterFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -32,7 +37,7 @@ const RegisterModal = ({
       onOk={handleRegisterOk}
       footer={[
         <div className="modal-footer">
-          Do you have an account? <a>Log In</a>
+          Do you have an account? <span onClick={handleOpenLogin}>Log In</span>
         </div>,
       ]}
       onCancel={handleRegisterCancel}

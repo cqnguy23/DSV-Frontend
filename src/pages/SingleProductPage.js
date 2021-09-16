@@ -1,8 +1,8 @@
-import { Button, Col, Image, Radio, Rate, Row } from "antd";
+import { Button, Col, Image, Radio, Rate, Row, Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { QuantityPicker } from "react-qty-picker";
 
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
@@ -15,7 +15,6 @@ const SingleProductPage = () => {
   const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [size, setSize] = useState();
   const params = useParams();
-  console.log(params);
   const id = params.id;
   const handleSize = (size) => {
     setSize(size);
@@ -48,7 +47,6 @@ const SingleProductPage = () => {
       maxQuantity: currentQuantity,
       totalPrice: (product.price * selectedQuantity).toFixed(2),
     };
-    console.log(addedProduct.totalPrice);
     dispatch(cartActions.addToCart(addedProduct));
   };
   useEffect(() => {
@@ -61,13 +59,12 @@ const SingleProductPage = () => {
     } else {
       setCurrentQuantity(quantity);
     }
-  }, [quantity, size]);
-  console.log(loading);
+  }, [quantity, size, product.size]);
   return (
-    <>
+    <Layout>
       <Content className="single-product-content">
         <BreadCrumb />
-        {loading ? (
+        {loading || Object.keys(product).length === 0 ? (
           <ClipLoader />
         ) : (
           <Row className="single-product-row">
@@ -77,28 +74,28 @@ const SingleProductPage = () => {
               <Row>
                 <Image
                   alt="product"
-                  src={product.imgURL?.at(1)}
+                  src={product.imgURL.at(1)}
                   height="100px"
                 ></Image>
               </Row>
               <Row>
                 <Image
                   alt="product"
-                  src={product.imgURL?.at(2)}
+                  src={product.imgURL.at(2)}
                   height="100px"
                 ></Image>
               </Row>
               <Row>
                 <Image
                   alt="product"
-                  src={product.imgURL?.at(3)}
+                  src={product.imgURL.at(3)}
                   height="100px"
                 ></Image>
               </Row>
               <Row>
                 <Image
                   alt="product"
-                  src={product.imgURL?.at(4)}
+                  src={product.imgURL.at(4)}
                   height="100px"
                 ></Image>
               </Row>
@@ -106,7 +103,7 @@ const SingleProductPage = () => {
             <Col span={7}>
               <Image
                 alt="product"
-                src={product.imgURL?.at(0)}
+                src={product.imgURL.at(0)}
                 className="single-product-img"
                 height="100%"
               />
@@ -142,7 +139,7 @@ const SingleProductPage = () => {
                 >
                   <Radio.Button
                     value="s"
-                    disabled={product.size?.s === 0 ? true : false}
+                    disabled={product.size.s === 0 ? true : false}
                     onClick={() => {
                       handleSize("s");
                     }}
@@ -151,7 +148,7 @@ const SingleProductPage = () => {
                   </Radio.Button>
                   <Radio.Button
                     value="m"
-                    disabled={product.size?.m === 0 ? true : false}
+                    disabled={product.size.m === 0 ? true : false}
                     // disabled={availableSize.includes("m") ? false : true}
                     onClick={() => {
                       handleSize("m");
@@ -161,7 +158,7 @@ const SingleProductPage = () => {
                   </Radio.Button>
                   <Radio.Button
                     value="l"
-                    disabled={product.size?.l === 0 ? true : false}
+                    disabled={product.size.l === 0 ? true : false}
                     // disabled={availableSize.includes("l") ? false : true}
                     onClick={() => {
                       handleSize("l");
@@ -182,7 +179,7 @@ const SingleProductPage = () => {
                   <QuantityPicker
                     smooth
                     min={0}
-                    max={product?.size ? product?.size[size] : 0}
+                    max={product.size[size]}
                     onChange={getSelectedValue}
                   />
                 </div>
@@ -198,7 +195,7 @@ const SingleProductPage = () => {
           </Row>
         )}
       </Content>
-    </>
+    </Layout>
   );
 };
 

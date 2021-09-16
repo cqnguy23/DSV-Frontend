@@ -21,7 +21,6 @@ cartActions.submitOrder = (products, totalAmount) => async (dispatch) => {
       totalPrice: totalAmount,
     });
     const order = await res.data;
-    console.log(order);
     dispatch({ type: types.SUBMIT_ORDER_SUCCESS, payload: order });
     toastAction.success("Ordered Placed Successfully");
   } catch (err) {
@@ -44,7 +43,6 @@ cartActions.updateItem = (productID, quantity) => async (dispatch) => {
   try {
     const data = { productID, quantity };
     dispatch({ type: types.EDIT_CART_SUCCESS, payload: data });
-    console.log("Updated");
   } catch (err) {
     dispatch({ type: types.EDIT_CART_FAILURE, payload: err });
     toastAction.error(err);

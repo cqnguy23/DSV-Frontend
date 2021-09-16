@@ -3,7 +3,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import userActions from "../redux/actions/user.actions";
 
-const LoginModal = ({ isLogInModalVisible, setIsLogInModalVisible }) => {
+const LoginModal = ({
+  isLogInModalVisible,
+  setIsLogInModalVisible,
+  setIsRegisterModalVisible,
+}) => {
   const dispatch = useDispatch();
 
   const handleLogInOk = () => {
@@ -17,7 +21,10 @@ const LoginModal = ({ isLogInModalVisible, setIsLogInModalVisible }) => {
     const { email, password } = values;
     dispatch(userActions.login(email, password, setIsLogInModalVisible));
   };
-
+  const handleOpenRegister = () => {
+    setIsLogInModalVisible(false);
+    setIsRegisterModalVisible(true);
+  };
   const onLogInFinishFailed = (errorInfo) => {};
 
   return (
@@ -34,7 +41,8 @@ const LoginModal = ({ isLogInModalVisible, setIsLogInModalVisible }) => {
       onOk={handleLogInOk}
       footer={[
         <div className="modal-footer">
-          Don't have an account? <a>Register</a>
+          Don't have an account?{" "}
+          <span onClick={handleOpenRegister}>Register</span>
         </div>,
       ]}
       onCancel={handleLogInCancel}
@@ -53,30 +61,12 @@ const LoginModal = ({ isLogInModalVisible, setIsLogInModalVisible }) => {
         </h1>
         <div> Email </div>
 
-        <Form.Item
-          name="email"
-          rules={[
-            { required: true, message: "Please input your email!" },
-            {
-              type: "email",
-              message: "Your email is invalid!",
-            },
-          ]}
-        >
+        <Form.Item name="email">
           <Input />
         </Form.Item>
         <div> Password </div>
 
-        <Form.Item
-          name="password"
-          rules={[
-            { required: true, message: "Please input your password!" },
-            {
-              min: 6,
-              message: "Invalid Password ",
-            },
-          ]}
-        >
+        <Form.Item name="password">
           <Input.Password />
         </Form.Item>
 

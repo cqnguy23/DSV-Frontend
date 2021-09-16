@@ -1,6 +1,8 @@
 @import "~antd/dist/antd.less";
-body {
+
+.ant-layout {
   padding: 0px 130px 0px 130px;
+  background-color: white;
 }
 .ant-divider-horizontal {
   margin: 0px;
@@ -44,9 +46,11 @@ body {
 .modal-footer {
   text-align: center;
 }
-.modal-footer a {
+.modal-footer span {
   font-weight: bold;
   text-decoration: underline;
+  color: #ff7413;
+  cursor: pointer;
 }
 .header-col {
   display: flex !important;
@@ -58,7 +62,7 @@ body {
   cursor: pointer;
 }
 .flex-end {
-  justify-content: end;
+  justify-content: flex-end;
 }
 .flex-start {
   justify-content: start;
@@ -273,7 +277,7 @@ body {
 }
 .cart-amount {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   font-size: 16px;
   font-weight: 500;
@@ -295,4 +299,88 @@ body {
 .total-title {
   font-size: 14px;
   font-weight: bold;
+}
+
+/* Admin Login Page */
+
+.admin-login-form {
+  width: 380px;
+  height: 420px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 32px 33px;
+  opacity: 0.8;
+  color: #acacac;
+  border-radius: 2px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 24px 0 rgba(0, 0, 0, 0.08);
+  background-color: rgba(61, 61, 63, 0.8);
+}
+
+.admin-login-layout {
+  background-image: url(./image/admin-bg.png);
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.admin-input {
+  height: 48px;
+}
+/* Admin Dashboard Page */
+.admin-dashboard-layout {
+  padding: 0;
+  background-color: #ededed;
+}
+
+.admin-dashboard-logo {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-dashboard-sider {
+  background-color: #ededed;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.admin-dashboard-menu {
+  background-color: #ededed;
+}
+.admin-dashboard-header {
+  background-color: #ededed;
+  color: #202124;
+  padding: 10px 20px 0px 20px;
+}
+.admin-dashboard-header h1 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.ant-layout-sider-trigger {
+  background-color: #ededed;
+  color: #202124;
+}
+
+.admin-dashboard-content {
+  border-radius: 2px;
+  box-shadow: 0 10px 24px 0 rgba(0, 0, 0, 0.08);
+  margin: 32px 20px 25px 20px;
+  background-color: white;
+}
+
+.admin-dashboard-status-row {
+  align-items: center;
+  min-height: 62px;
+  font-weight: 600;
+  font-size: 12px;
+  color: #acacac;
+  margin: 10px 24px 0px 24px;
 }

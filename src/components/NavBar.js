@@ -194,10 +194,12 @@ const NavBar = () => {
       <RegisterModal
         isRegisterModalVisible={isRegisterModalVisible}
         setIsRegisterModalVisible={setIsRegisterModalVisible}
+        setIsLogInModalVisible={setIsLogInModalVisible}
       />
       <LoginModal
         isLogInModalVisible={isLogInModalVisible}
         setIsLogInModalVisible={setIsLogInModalVisible}
+        setIsRegisterModalVisible={setIsRegisterModalVisible}
       />
     </>
   );

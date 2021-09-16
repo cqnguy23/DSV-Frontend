@@ -12,9 +12,15 @@ const addedProduct = {
       maxQuantity: currentQuantity,
     };
 */
+const initialProducts = localStorage.getItem("cartProducts");
+const initialTotalAmount = localStorage.getItem("totalAmount");
+const localProducts = initialProducts ? JSON.parse(initialProducts) : [];
+const localTotalAmount = initialTotalAmount
+  ? JSON.parse(initialTotalAmount)
+  : 0;
 const initialState = {
-  products: [],
-  totalAmount: "0",
+  products: localProducts,
+  totalAmount: localTotalAmount,
   loading: false,
 };
 
@@ -34,32 +40,48 @@ const cartReducer = (state = initialState, action) => {
       return { ...state, loading: false };
 
     case types.ADD_TO_CART_SUCCESS:
-      console.log("total price", payload.totalPrice);
-      console.log("state amount", state.totalAmount);
-      console.log(typeof state.totalAmount, "typeState");
-      console.log(typeof payload.totalPrice, "typePayload");
       const totalAmount = (
         parseFloat(state.totalAmount) + parseFloat(payload.totalPrice)
       ).toFixed(2);
-      return {
+      const addedState = {
         ...state,
         products: [...state.products, payload],
         totalAmount: totalAmount,
       };
+      localStorage.setItem("cartProducts", JSON.stringify(addedState.products));
+      localStorage.setItem(
+        "totalAmount",
+        JSON.stringify(addedState.totalAmount)
+      );
+      return addedState;
     case types.DELETE_CART_ITEM_SUCCESS:
       let tempProduct;
       const postProducts = state.products.filter((product) => {
         if (product.id === payload) tempProduct = product;
         return product.id !== payload;
       });
-      return {
+      const deletedState = {
         ...state,
         products: postProducts,
-        totalAmount:
-          parseFloat(state.totalAmount) - parseFloat(tempProduct.totalPrice),
+        totalAmount: (
+          parseFloat(state.totalAmount) - parseFloat(tempProduct.totalPrice)
+        ).toFixed(2),
       };
+      localStorage.setItem(
+        "cartProducts",
+        JSON.stringify(deletedState.products)
+      );
+      localStorage.setItem(
+        "totalAmount",
+        JSON.stringify(deletedState.totalAmount)
+      );
+      const products = JSON.parse(localStorage.getItem("cartProducts"));
+      if (products.length === 0) {
+        localStorage.removeItem("cartProducts");
+        localStorage.removeItem("totalAmount");
+      }
+      return deletedState;
     case types.EDIT_CART_SUCCESS:
-      console.log(payload.productID);
       let updatedTotalAmount = parseFloat(state.totalAmount);
       const updatedProducts = state.products.map((product) => {
         if (product.id === payload.productID) {
@@ -77,15 +99,24 @@ const cartReducer = (state = initialState, action) => {
           };
         } else return product;
       });
-      console.log(updatedTotalAmount);
       updatedTotalAmount = updatedTotalAmount.toFixed(2);
-      return {
+      const editedState = {
         ...state,
         products: updatedProducts,
         totalAmount: updatedTotalAmount,
       };
+      localStorage.setItem(
+        "cartProducts",
+        JSON.stringify(editedState.products)
+      );
+      localStorage.setItem(
+        "totalAmount",
+        JSON.stringify(editedState.totalAmount)
+      );
+      return editedState;
     case types.SUBMIT_ORDER_SUCCESS:
-      console.log("Here");
+      localStorage.removeItem("cartProducts");
+      localStorage.removeItem("totalAmount");
       return {
         ...state,
         totalAmount: "0",
