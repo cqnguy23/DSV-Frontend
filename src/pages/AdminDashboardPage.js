@@ -13,6 +13,8 @@ import {
   SettingFilled,
 } from "@ant-design/icons";
 import logo from "../image/logo.png";
+import { Route, Switch } from "react-router";
+import AdminOrdersPage from "./AdminOrdersPage";
 const { Header, Content, Footer, Sider } = Layout;
 const AdminDashboardPage = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -55,24 +57,9 @@ const AdminDashboardPage = () => {
         </Menu>
       </Sider>
       <Divider type="vertical" style={{ height: "100vh", margin: 0 }} />
-      <Layout className="site-layout admin-dashboard-layout">
-        <Header className="site-layout-background admin-dashboard-header">
-          <h1>Orders</h1>
-        </Header>
-        <Content className="admin-dashboard-content">
-          <Row className="site-layout-background admin-dashboard-status-row">
-            <Col style={{ marginLeft: "15px" }} span={3}>
-              ORDER ID
-            </Col>
-            <Col span={4}>ORDERED DATE</Col>
-            <Col span={8}>DETAIL</Col>
-            <Col span={3}>TOTAL</Col>
-            <Col span={3}>STATUS</Col>
-            <Col span={2}></Col>
-          </Row>
-          <Divider />
-        </Content>
-      </Layout>
+      <Switch>
+        <Route exact path="/admin/dashboard" component={AdminOrdersPage} />
+      </Switch>
     </Layout>
   );
 };

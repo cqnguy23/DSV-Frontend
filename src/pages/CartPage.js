@@ -10,6 +10,7 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart.products);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const loading = useSelector((state) => state.cart.loading);
   const handleDeleteItem = (productID) => {
     dispatch(cartActions.removeItem(productID));
   };
@@ -52,7 +53,11 @@ const CartPage = () => {
                       <Col span={8}>
                         <Row style={{ flexWrap: "nowrap" }}>
                           <Col>
-                            <Image src={product.imgURL} height="115px" />
+                            <Image
+                              src={product.imgURL}
+                              height="115px"
+                              width="80px"
+                            />
                           </Col>
                           <Col offset={1} className="card-col">
                             <Row className="cart-title">{product.name}</Row>
@@ -130,8 +135,11 @@ const CartPage = () => {
                 </Row>
               </div>
               <Row>
-                <Button type="primary" onClick={handleSubmitOrder}>
-                  {" "}
+                <Button
+                  type="primary"
+                  loading={loading}
+                  onClick={handleSubmitOrder}
+                >
                   Checkout{" "}
                 </Button>
               </Row>

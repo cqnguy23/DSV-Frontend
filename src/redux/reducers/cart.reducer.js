@@ -47,6 +47,7 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         products: [...state.products, payload],
         totalAmount: totalAmount,
+        loading: false,
       };
       localStorage.setItem("cartProducts", JSON.stringify(addedState.products));
       localStorage.setItem(
@@ -66,6 +67,7 @@ const cartReducer = (state = initialState, action) => {
         totalAmount: (
           parseFloat(state.totalAmount) - parseFloat(tempProduct.totalPrice)
         ).toFixed(2),
+        loading: false,
       };
       localStorage.setItem(
         "cartProducts",
@@ -94,6 +96,7 @@ const cartReducer = (state = initialState, action) => {
           }
           return {
             ...product,
+            loading: false,
             quantity: payload.quantity,
             totalPrice: (payload.quantity * product.price).toFixed(2),
           };
@@ -121,6 +124,7 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         totalAmount: "0",
         products: [],
+        loading: false,
       };
     default:
       return state;

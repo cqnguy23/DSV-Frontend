@@ -50,7 +50,6 @@ const HomePage = () => {
             </Button>
           </div>
         </Col>
-        <Col></Col>
         <Col className="position-relative width-24">
           <img alt="woman" width="100%" height="100%" src={womenImg} />
           <div className="bottom-centered">

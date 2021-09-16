@@ -2,15 +2,17 @@ import { Breadcrumb } from "antd";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const BreadCrumb = () => {
+const BreadCrumb = ({ id, name }) => {
   const location = useLocation();
+  const gender = location.pathname.split("/gender/")[1].split("/")[0];
+
   const breadcrumbNameMap = {
     "/products/gender/women": "Women",
     "/products/gender/men": "Men",
     "/products/gender/boys": "Boys",
     "/products/gender/girls": "Girls",
   };
-
+  if (id) breadcrumbNameMap["/products/gender/" + gender + "/" + id] = name;
   const pathSnippets = location.pathname
     .split("/gender")[1]
     .split("/")

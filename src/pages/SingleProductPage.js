@@ -61,9 +61,9 @@ const SingleProductPage = () => {
     }
   }, [quantity, size, product.size]);
   return (
-    <Layout>
-      <Content className="single-product-content">
-        <BreadCrumb />
+    <Layout className="single-product-content">
+      <Content>
+        <BreadCrumb id={product._id} name={product.name} />
         {loading || Object.keys(product).length === 0 ? (
           <ClipLoader />
         ) : (
@@ -71,41 +71,25 @@ const SingleProductPage = () => {
             <Col span={2}></Col>
 
             <Col className="single-product-col" span={2}>
-              <Row>
-                <Image
-                  alt="product"
-                  src={product.imgURL.at(1)}
-                  height="100px"
-                ></Image>
-              </Row>
-              <Row>
-                <Image
-                  alt="product"
-                  src={product.imgURL.at(2)}
-                  height="100px"
-                ></Image>
-              </Row>
-              <Row>
-                <Image
-                  alt="product"
-                  src={product.imgURL.at(3)}
-                  height="100px"
-                ></Image>
-              </Row>
-              <Row>
-                <Image
-                  alt="product"
-                  src={product.imgURL.at(4)}
-                  height="100px"
-                ></Image>
-              </Row>
+              {product.imgURL.map((img) => {
+                return (
+                  <Row>
+                    <img
+                      alt="product"
+                      src={img}
+                      height="120px"
+                      className="single-product-side-img"
+                    ></img>
+                  </Row>
+                );
+              })}
             </Col>
             <Col span={7}>
               <Image
                 alt="product"
                 src={product.imgURL.at(0)}
                 className="single-product-img"
-                height="100%"
+                height="537px"
               />
             </Col>
             <Col className="single-product-info" span={9}>
