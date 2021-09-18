@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { Layout, Menu, Breadcrumb, Image, Row, Divider, Col } from "antd";
+import { Layout, Menu, Image, Divider } from "antd";
 import {
-  DesktopOutlined,
   PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
   OrderedListOutlined,
   ShoppingCartOutlined,
   DollarCircleFilled,
@@ -15,7 +11,7 @@ import {
 import logo from "../image/logo.png";
 import { Route, Switch } from "react-router";
 import AdminOrdersPage from "./AdminOrdersPage";
-const { Header, Content, Footer, Sider } = Layout;
+const { Sider } = Layout;
 const AdminDashboardPage = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (

@@ -3,14 +3,15 @@ import { Form, Input, Button, Layout } from "antd";
 import userActions from "../redux/actions/user.actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import adminActions from "../redux/actions/admin.actions";
 const AdminLoginPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const role = useSelector((state) => state.user.role);
+  const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const role = useSelector((state) => state.admin.role);
   const onLogInFinish = (values) => {
     const { email, password } = values;
-    dispatch(userActions.login(email, password, null, true));
+    dispatch(adminActions.login(email, password));
   };
   useEffect(() => {
     if (isLoggedIn && role === "seller") {

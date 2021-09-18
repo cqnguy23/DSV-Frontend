@@ -4,6 +4,9 @@
   padding: 0px 130px 0px 130px;
   background-color: white;
 }
+.css-q3o1l2 {
+  margin: auto !important;
+}
 .ant-divider-horizontal {
   margin: 0px;
 }
@@ -138,8 +141,6 @@
   display: flex;
   justify-content: center;
 }
-.sidebar {
-}
 
 .products-list {
   justify-content: space-between;
@@ -198,10 +199,19 @@
   height: 360px;
   object-fit: cover;
 }
-
+.single-product-sizebtn {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+.single-product-headline {
+  font-size: 14px;
+  font-weight: 500;
+}
 .single-product-title {
   font-size: 24px;
   font-weight: 500;
+  line-height: 30px;
 }
 
 .single-product-price {
@@ -252,6 +262,25 @@
   margin: 37px 0 37px 0;
 }
 
+.quantity-modifier {
+  height: 100%;
+  width: 34px !important;
+  font-size: 18px !important;
+  background: #ffffff !important;
+  /* color: #888; */
+  border: 0 solid #dbdbdb;
+  color: #202124;
+  text-align: center;
+  cursor: pointer;
+}
+.quantity-display {
+  width: 40px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+.cart-page-products-row {
+  min-height: 60vh;
+}
 .bg-white {
   background-color: white;
 }
@@ -270,6 +299,26 @@
   font-weight: 500;
   flex-wrap: nowrap !important;
 }
+.checkout-btn {
+  width: 100%;
+  height: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: #ff5f6d;
+  border: #ff5f6d;
+}
+.checkout-btn:hover {
+  background-color: #fb8c95;
+}
+.cart-total-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 150px;
+  background-color: #f9f9f9;
+  padding: 30px 30px 24px 30px;
+  margin: 10px 0px 10px;
+}
 .cart-size {
   text-align: center;
   display: flex;
@@ -283,6 +332,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 8px;
 }
 .cart-amount {
   display: flex;
@@ -296,6 +346,9 @@
   justify-content: center;
   align-items: center;
 }
+.mb-15 {
+  margin-bottom: 15px;
+}
 .card-buttons {
   align-self: end;
 }
@@ -306,7 +359,7 @@
   border-radius: 50%;
 }
 .total-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
 }
 
@@ -341,14 +394,14 @@
 .admin-input {
   height: 48px;
 }
-/* Admin Dashboard Page */
+/* Admin Orders Page */
 .admin-dashboard-layout {
   padding: 0;
   background-color: #ededed;
 }
 
 .admin-dashboard-logo {
-  height: 100px;
+  height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -366,11 +419,13 @@
 .admin-dashboard-header {
   background-color: #ededed;
   color: #202124;
-  padding: 10px 20px 0px 20px;
+  min-height: 132px;
+  padding: 0 20px;
 }
 .admin-dashboard-header h1 {
   font-size: 28px;
   font-weight: bold;
+  margin-top: 15px;
 }
 
 .ant-layout-sider-trigger {
@@ -379,12 +434,20 @@
 }
 
 .admin-dashboard-content {
+  position: relative;
   border-radius: 2px;
   box-shadow: 0 10px 24px 0 rgba(0, 0, 0, 0.08);
   margin: 32px 20px 25px 20px;
   background-color: white;
+  min-height: 640px;
 }
-
+.admin-dashboard-pagination {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+}
 .admin-dashboard-status-row {
   align-items: center;
   min-height: 62px;
@@ -402,4 +465,18 @@
   color: #3d3d3f;
   margin: 0px 24px 0px 24px;
   border-bottom: 1px solid #ededed;
+}
+.admin-dashboard-toprow {
+  display: flex;
+  justify-content: space-between;
+}
+.admin-date-picker {
+  font-size: 12px;
+  font-weight: 600;
+  color: #acacac;
+  height: 48px;
+}
+.admin-date-btn {
+  height: 100%;
+  margin-left: 10px;
 }

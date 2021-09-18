@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { Redirect, Route } from "react-router";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const role = useSelector((state) => state.user.role);
+  const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const role = useSelector((state) => state.admin.role);
   return (
     <Route
       {...rest}

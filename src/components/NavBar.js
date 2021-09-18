@@ -1,7 +1,11 @@
 import { Col, Layout, Row, Button, Divider, Dropdown, Menu } from "antd";
 import Search from "antd/lib/input/Search";
 import { Header } from "antd/lib/layout/layout";
-import { DownOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  CaretDownOutlined,
+  DownOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
 import React, { useState } from "react";
 import logo from "../image/logo.png";
 import { useHistory } from "react-router";
@@ -147,8 +151,7 @@ const NavBar = () => {
                 className="ant-dropdown-link"
                 onClick={(e) => e.preventDefault()}
               >
-                Men
-                <DownOutlined />
+                Men <DownOutlined />
               </a>
             </Dropdown>
           </Col>
@@ -159,8 +162,7 @@ const NavBar = () => {
                 className="ant-dropdown-link"
                 onClick={(e) => e.preventDefault()}
               >
-                Women
-                <DownOutlined />
+                Women <DownOutlined />
               </a>
             </Dropdown>
           </Col>
@@ -171,8 +173,7 @@ const NavBar = () => {
                 className="ant-dropdown-link"
                 onClick={(e) => e.preventDefault()}
               >
-                Boys
-                <DownOutlined />
+                Boys <DownOutlined />
               </a>
             </Dropdown>
           </Col>
@@ -183,8 +184,7 @@ const NavBar = () => {
                 className="ant-dropdown-link"
                 onClick={(e) => e.preventDefault()}
               >
-                Girls
-                <DownOutlined />
+                Girls <DownOutlined />
               </a>
             </Dropdown>
           </Col>

@@ -11,11 +11,11 @@ const CartPage = () => {
   const cartProducts = useSelector((state) => state.cart.products);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const loading = useSelector((state) => state.cart.loading);
-  const handleDeleteItem = (productID) => {
-    dispatch(cartActions.removeItem(productID));
+  const handleDeleteItem = (productID, size) => {
+    dispatch(cartActions.removeItem(productID, size));
   };
-  const handleQuantityPicker = (value, id) => {
-    dispatch(cartActions.updateItem(id, value));
+  const handleQuantityPicker = (value, id, size) => {
+    dispatch(cartActions.updateItem(id, value, size));
   };
   const handleSubmitOrder = () => {
     dispatch(cartActions.submitOrder(cartProducts, totalAmount));
@@ -28,8 +28,8 @@ const CartPage = () => {
         {cartProducts.length === 0 ? (
           <div>Please select a product to proceed!</div>
         ) : (
-          <Row>
-            <Col span={19}>
+          <Row className="cart-page-products-row">
+            <Col span={16}>
               <Row style={{ fontWeight: "bolder" }}>
                 <Col span={8}>Product</Col>
                 <Col span={3} style={{ textAlign: "center" }}>
@@ -48,7 +48,7 @@ const CartPage = () => {
               {cartProducts.map((product, idx) => {
                 return (
                   <div key={idx}>
-                    <Divider style={{ margin: "10px" }} />
+                    <Divider style={{ margin: "10px 0px" }} />
                     <Row className="card-row">
                       <Col span={8}>
                         <Row style={{ flexWrap: "nowrap" }}>
@@ -62,15 +62,11 @@ const CartPage = () => {
                           <Col offset={1} className="card-col">
                             <Row className="cart-title">{product.name}</Row>
                             <Row className="cart-buttons">
-                              <Button type="text" size="small">
-                                Change
-                              </Button>
-                              {"|"}
                               <Button
                                 type="text"
                                 size="small"
                                 onClick={() => {
-                                  handleDeleteItem(product.id);
+                                  handleDeleteItem(product.id, product.size);
                                 }}
                               >
                                 Remove
@@ -100,12 +96,16 @@ const CartPage = () => {
                       </Col>
                       <Col span={6} className="cart-quantity">
                         <QuantityPicker
-                          smooth
                           min={1}
+                          width={"30px"}
                           max={product.maxQuantity}
                           value={product.quantity}
                           onChange={(value) => {
-                            handleQuantityPicker(value, product.id);
+                            handleQuantityPicker(
+                              value,
+                              product.id,
+                              product.size
+                            );
                           }}
                         />
                       </Col>
@@ -117,25 +117,26 @@ const CartPage = () => {
                 );
               })}
             </Col>
-            <Col offset={1} span={4}>
+            <Col offset={1} span={7}>
               <Row className="total-title"> Total </Row>
-              <div>
+              <div className="cart-total-div">
                 <Row className="flex-justify-between">
                   <Col>Shipping & Handling:</Col>
                   <Col>Free</Col>
                 </Row>
-                <Row className="flex-justify-between">
+                <Row className="flex-justify-between mb-15">
                   <Col>Total Product:</Col>
                   <Col>${totalAmount}</Col>
                 </Row>
                 <Divider />
-                <Row className="flex-justify-between">
-                  <Col className="total-title">Subtotal:</Col>
+                <Row className="flex-justify-between total-title">
+                  <Col>Subtotal</Col>
                   <Col>${totalAmount}</Col>
                 </Row>
               </div>
               <Row>
                 <Button
+                  className="checkout-btn"
                   type="primary"
                   loading={loading}
                   onClick={handleSubmitOrder}

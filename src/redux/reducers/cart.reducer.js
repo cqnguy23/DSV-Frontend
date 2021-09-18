@@ -58,8 +58,12 @@ const cartReducer = (state = initialState, action) => {
     case types.DELETE_CART_ITEM_SUCCESS:
       let tempProduct;
       const postProducts = state.products.filter((product) => {
-        if (product.id === payload) tempProduct = product;
-        return product.id !== payload;
+        if (product.id === payload.productID && product.size === payload.size) {
+          tempProduct = product;
+        }
+        if (product.id === payload.productID && product.size === payload.size)
+          return false;
+        return true;
       });
       const deletedState = {
         ...state,
@@ -86,7 +90,7 @@ const cartReducer = (state = initialState, action) => {
     case types.EDIT_CART_SUCCESS:
       let updatedTotalAmount = parseFloat(state.totalAmount);
       const updatedProducts = state.products.map((product) => {
-        if (product.id === payload.productID) {
+        if (product.id === payload.productID && product.size === payload.size) {
           if (payload.quantity > product.quantity) {
             updatedTotalAmount +=
               (payload.quantity - product.quantity) * product.price;
@@ -96,7 +100,6 @@ const cartReducer = (state = initialState, action) => {
           }
           return {
             ...product,
-            loading: false,
             quantity: payload.quantity,
             totalPrice: (payload.quantity * product.price).toFixed(2),
           };
@@ -107,6 +110,7 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         products: updatedProducts,
         totalAmount: updatedTotalAmount,
+        loading: false,
       };
       localStorage.setItem(
         "cartProducts",

@@ -73,7 +73,10 @@ const ProductsPage = () => {
                       }}
                     >
                       <div className="header-col-title"> {product.name} </div>
-                      <div className="header-col-price"> {product.price}$ </div>
+                      <div className="header-col-price">
+                        {" "}
+                        {product.price.toFixed(2)}${" "}
+                      </div>
                     </Card>
                   </Col>
                 );

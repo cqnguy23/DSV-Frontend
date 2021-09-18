@@ -1,4 +1,4 @@
-import * as types from "../constants/user.constants";
+import * as types from "../constants/user.constant.js";
 import api from "../../api";
 const initialUser = localStorage.getItem("loggedInUser");
 let token = localStorage.getItem("token");

@@ -1,4 +1,4 @@
-import { Button, Col, Image, Radio, Rate, Row, Layout } from "antd";
+import { Button, Col, Image, Radio, Rate, Row, Layout, Divider } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { QuantityPicker } from "react-qty-picker";
 
@@ -62,11 +62,11 @@ const SingleProductPage = () => {
   }, [quantity, size, product.size]);
   return (
     <Layout className="single-product-content">
-      <Content>
-        <BreadCrumb id={product._id} name={product.name} />
-        {loading || Object.keys(product).length === 0 ? (
-          <ClipLoader />
-        ) : (
+      <BreadCrumb id={product._id} name={product.name} />
+      {loading || Object.keys(product).length === 0 ? (
+        <ClipLoader />
+      ) : (
+        <Content>
           <Row className="single-product-row">
             <Col span={2}></Col>
 
@@ -95,73 +95,115 @@ const SingleProductPage = () => {
             <Col className="single-product-info" span={9}>
               <div>
                 <div className="single-product-title"> {product.name}</div>
-                <div className="single-product-price"> ${product.price}</div>
+                <div className="single-product-price">
+                  {" "}
+                  ${product.price.toFixed(2)}
+                </div>
                 <div>
                   <em>In stock: {currentQuantity}</em>{" "}
                 </div>
-                <br />
-                <div style={{ display: "flex", marginBottom: "10px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    margin: "13px 0 25px 0px",
+                    alignItems: "center",
+                  }}
+                >
                   <Rate
                     allowHalf
                     count={5}
                     value={rating}
                     onChange={changeRating}
                   />
-                  {"   "}| Review
+                  <Divider
+                    type="vertical"
+                    style={{ height: "20px", margin: "0 10px" }}
+                  />
+                  <div>Review</div>
                 </div>
-                <div> Size </div>
+                <div>
+                  <div className="single-product-headline"> Size </div>
 
-                <Radio.Group
-                  defaultValue={size}
-                  buttonStyle="solid"
-                  style={{
-                    display: "flex",
-                    marginBottom: "10px",
-                    justifyContent: "space-between",
-                    width: "150px",
-                  }}
-                >
-                  <Radio.Button
-                    value="s"
-                    disabled={product.size.s === 0 ? true : false}
-                    onClick={() => {
-                      handleSize("s");
+                  <Radio.Group
+                    defaultValue={size}
+                    buttonStyle="solid"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "150px",
                     }}
                   >
-                    S
-                  </Radio.Button>
-                  <Radio.Button
-                    value="m"
-                    disabled={product.size.m === 0 ? true : false}
-                    // disabled={availableSize.includes("m") ? false : true}
-                    onClick={() => {
-                      handleSize("m");
+                    <Radio.Button
+                      value="s"
+                      className="single-product-sizebtn"
+                      disabled={product.size.s === 0 ? true : false}
+                      onClick={() => {
+                        handleSize("s");
+                      }}
+                    >
+                      S
+                    </Radio.Button>
+                    <Radio.Button
+                      className="single-product-sizebtn"
+                      value="m"
+                      disabled={product.size.m === 0 ? true : false}
+                      // disabled={availableSize.includes("m") ? false : true}
+                      onClick={() => {
+                        handleSize("m");
+                      }}
+                    >
+                      M
+                    </Radio.Button>
+                    <Radio.Button
+                      className="single-product-sizebtn"
+                      value="l"
+                      disabled={product.size.l === 0 ? true : false}
+                      // disabled={availableSize.includes("l") ? false : true}
+                      onClick={() => {
+                        handleSize("l");
+                      }}
+                    >
+                      L
+                    </Radio.Button>
+                  </Radio.Group>
+                </div>
+                <div style={{ marginTop: "30px", marginBottom: "30px" }}>
+                  <div className="single-product-headline"> Color </div>
+                  <Row
+                    style={{
+                      justifyContent: "start",
+                      marginTop: "10px",
                     }}
                   >
-                    M
-                  </Radio.Button>
-                  <Radio.Button
-                    value="l"
-                    disabled={product.size.l === 0 ? true : false}
-                    // disabled={availableSize.includes("l") ? false : true}
-                    onClick={() => {
-                      handleSize("l");
-                    }}
-                  >
-                    L
-                  </Radio.Button>
-                </Radio.Group>
+                    <div
+                      className="circle"
+                      style={{ backgroundColor: "red", marginRight: "20px" }}
+                    ></div>
+                    <div
+                      className="circle"
+                      style={{ backgroundColor: "blue", marginRight: "20px" }}
+                    ></div>
+                    <div
+                      className="circle"
+                      style={{ backgroundColor: "purple", marginRight: "20px" }}
+                    ></div>
+                  </Row>
+                </div>
                 <div
                   className="flex-align-center flex-justify-between"
                   style={{
-                    width: "250px",
-                    marginTop: "20px",
+                    width: "200px",
+                    marginTop: "30px",
                     marginBottom: "30px",
                   }}
                 >
-                  <div>Quantity</div>
+                  <div
+                    className="single-product-headline"
+                    style={{ marginRight: "20px" }}
+                  >
+                    Quantity
+                  </div>
                   <QuantityPicker
-                    smooth
                     min={0}
                     max={product.size[size]}
                     onChange={getSelectedValue}
@@ -177,8 +219,8 @@ const SingleProductPage = () => {
               </div>
             </Col>
           </Row>
-        )}
-      </Content>
+        </Content>
+      )}
     </Layout>
   );
 };

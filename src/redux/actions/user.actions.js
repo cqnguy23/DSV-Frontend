@@ -1,4 +1,4 @@
-import * as types from "../constants/user.constants";
+import * as types from "../constants/user.constant.js";
 import api from "../../api";
 import toastAction from "../../toastAction";
 const userActions = {};
@@ -53,10 +53,21 @@ userActions.resgister =
     }
   };
 
-userActions.logout = () => (dispatch) => {
+userActions.logout = () => async (dispatch) => {
   dispatch({ type: types.USER_LOGOUT_REQUEST, payload: null });
 
   try {
+    const token = api.defaults.headers.common["authorization"].replace(
+      "Bearer ",
+      ""
+    );
+    console.log("token", token);
+    const url = "/auth/logout";
+    const resp = await api.post(url, {
+      token,
+    });
+    const message = resp.data;
+    console.log("message", message);
     delete api.defaults.headers.common["authorization"];
 
     dispatch({ type: types.USER_LOGOUT_SUCCESS, payload: null });

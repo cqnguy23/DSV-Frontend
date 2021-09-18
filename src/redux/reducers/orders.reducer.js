@@ -10,14 +10,30 @@ const orderReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case types.GET_ORDERS_REQUEST:
+    case types.UPDATE_ORDER_REQUEST:
       return { ...state, loading: true };
+
     case types.GET_ORDERS_FAILURE:
+    case types.UPDATE_ORDER_FAILURE:
       return { ...state, loading: false };
+
     case types.GET_ORDERS_SUCCESS:
       return {
         ...state,
         orders: payload.orders,
         totalOrders: payload.totalOrders,
+        loading: false,
+      };
+    case types.UPDATE_ORDER_SUCCESS:
+      return {
+        ...state,
+        orders: state.orders.map((order) => {
+          if (order._id === payload._id) {
+            return { ...order, status: payload.status };
+          } else {
+            return order;
+          }
+        }),
         loading: false,
       };
 

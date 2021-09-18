@@ -1,24 +1,55 @@
-import { Layout, Row, Col, Divider, Tag, Dropdown, Button, Menu } from "antd";
+import {
+  Layout,
+  Row,
+  Col,
+  Divider,
+  Tag,
+  Dropdown,
+  Menu,
+  Button,
+  DatePicker,
+  Pagination,
+} from "antd";
 import { Content, Header } from "antd/lib/layout/layout";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import userActions from "../redux/actions/user.actions";
+
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import orderActions from "../redux/actions/order.actions";
 import moment from "moment";
 import { ClipLoader } from "react-spinners";
-import { DeleteFilled, DownOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  CheckCircleFilled,
+  CloseCircleFilled,
+} from "@ant-design/icons";
+import AdminInfo from "../components/AdminInfo";
 const AdminOrdersPage = () => {
   let orders = useSelector((state) => state.order.orders);
+  const totalOrders = useSelector((state) => state.order.totalOrders);
   let loading = useSelector((state) => state.order.loading);
+  const { RangePicker } = DatePicker;
+  const limit = 10;
+  const [page, setPage] = useState(1);
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(orderActions.getOrders());
-  }, [dispatch]);
+    dispatch(orderActions.getOrders(page, limit));
+  }, [dispatch, page]);
   console.log(orders);
-  function handleMenuClick(e) {
-    console.log("click", e);
+  const handleEditOrderStatus = (id, status) => {
+    dispatch(orderActions.updateOrder(id, status));
+  };
+
+  function handleDateRangeChange(dates, dateStrings) {
+    console.log("From: ", dates[0], ", to: ", dates[1]);
+    console.log(typeof dates[0]);
+    console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
   }
-  if (orders.length != 0) {
+  if (orders.length !== 0) {
     orders = orders.map((order) => {
       const date = moment(order.createdAt).calendar(null, {
         sameDay: "[Today], Do MMM, YYYY",
@@ -28,26 +59,38 @@ const AdminOrdersPage = () => {
       return { ...order, createdAt: date };
     });
   }
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1" icon={<EditOutlined />}>
-        Edit
-      </Menu.Item>
-      <Menu.Item key="2" icon={<DeleteFilled />}>
-        Remove
-      </Menu.Item>
-    </Menu>
-  );
-  console.log(orders);
+
   return (
     <Layout className="site-layout admin-dashboard-layout">
       <Header className="site-layout-background admin-dashboard-header">
-        <h1>Orders</h1>
+        <Row className="admin-dashboard-toprow">
+          <h1>Orders</h1>
+          <AdminInfo />
+        </Row>
+        <Row className="admin-date-picker">
+          <div
+            style={{
+              marginRight: "20px",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            ORDERED DATE{" "}
+          </div>
+          <RangePicker
+            size="middle"
+            style={{ height: "100%" }}
+            onChange={handleDateRangeChange}
+          />
+          <Button className="admin-date-btn"> Today </Button>
+          <Button className="admin-date-btn"> Yesterday </Button>
+        </Row>
       </Header>
       <Content className="admin-dashboard-content">
         {loading ? (
           <ClipLoader />
-        ) : orders.length == 0 ? (
+        ) : orders.length === 0 ? (
           <div> No orders have been made </div>
         ) : (
           <Col>
@@ -67,7 +110,9 @@ const AdminOrdersPage = () => {
               return (
                 <Row
                   className="site-layout-background admin-dashboard-order-row"
-                  style={{ backgroundColor: idx % 2 == 1 ? "#f6f6f6" : "none" }}
+                  style={{
+                    backgroundColor: idx % 2 === 1 ? "#f6f6f6" : "none",
+                  }}
                 >
                   <Col style={{ marginLeft: "15px" }} span={3}>
                     {order._id.slice(-7).toUpperCase()}
@@ -78,9 +123,9 @@ const AdminOrdersPage = () => {
                   <Col span={3}>
                     <Tag
                       color={
-                        order.status == "Pending"
+                        order.status === "Pending"
                           ? "#fbba4e"
-                          : order.status == "Completed"
+                          : order.status === "Completed"
                           ? "#82bf11"
                           : "#f05d62    "
                       }
@@ -89,7 +134,34 @@ const AdminOrdersPage = () => {
                     </Tag>
                   </Col>
                   <Col span={2}>
-                    <Dropdown overlay={menu}>
+                    <Dropdown
+                      overlay={
+                        <Menu>
+                          <Menu.Item
+                            key="1"
+                            icon={
+                              <CheckCircleFilled style={{ color: "#82bf11" }} />
+                            }
+                            onClick={() => {
+                              handleEditOrderStatus(order._id, "completed");
+                            }}
+                          >
+                            Mark as Completed
+                          </Menu.Item>
+                          <Menu.Item
+                            key="2"
+                            icon={
+                              <CloseCircleFilled style={{ color: "#f05d62" }} />
+                            }
+                            onClick={() => {
+                              handleEditOrderStatus(order._id, "cancelled");
+                            }}
+                          >
+                            Mark as Cancelled
+                          </Menu.Item>
+                        </Menu>
+                      }
+                    >
                       <Button type="text">
                         Action <DownOutlined />
                       </Button>
@@ -100,6 +172,14 @@ const AdminOrdersPage = () => {
             })}
           </Col>
         )}
+        <div className="admin-dashboard-pagination">
+          <Pagination
+            current={page}
+            onChange={handlePageChange}
+            pageSize={limit}
+            total={totalOrders}
+          />
+        </div>
       </Content>
     </Layout>
   );

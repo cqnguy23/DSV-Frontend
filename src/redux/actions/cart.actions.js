@@ -28,20 +28,23 @@ cartActions.submitOrder = (products, totalAmount) => async (dispatch) => {
     toastAction.error(err.response.data);
   }
 };
-cartActions.removeItem = (productID) => async (dispatch) => {
+cartActions.removeItem = (productID, size) => async (dispatch) => {
   dispatch({ type: types.DELETE_CART_ITEM_REQUEST, payload: null });
   try {
-    dispatch({ type: types.DELETE_CART_ITEM_SUCCESS, payload: productID });
+    const data = { productID, size };
+    console.log(data);
+    dispatch({ type: types.DELETE_CART_ITEM_SUCCESS, payload: data });
   } catch (err) {
+    console.log(err);
     dispatch({ type: types.DELETE_CART_ITEM_FAILURE, payload: err });
     toastAction.error(err);
   }
 };
 
-cartActions.updateItem = (productID, quantity) => async (dispatch) => {
+cartActions.updateItem = (productID, quantity, size) => async (dispatch) => {
   dispatch({ type: types.EDIT_CART_REQUEST, payload: null });
   try {
-    const data = { productID, quantity };
+    const data = { productID, quantity, size };
     dispatch({ type: types.EDIT_CART_SUCCESS, payload: data });
   } catch (err) {
     dispatch({ type: types.EDIT_CART_FAILURE, payload: err });
