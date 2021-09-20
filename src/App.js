@@ -11,6 +11,7 @@ import CartPage from "./pages/CartPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -32,10 +33,10 @@ function App() {
             <Switch>
               <Route exact path="/admin/login" component={AdminLoginPage} />
               <ProtectedRoute
-                exact
                 path="/admin/dashboard"
                 component={AdminDashboardPage}
               />
+              <Route component={NotFoundPage} />
             </Switch>
           </Route>
           <Route path="/">
@@ -54,9 +55,11 @@ function App() {
                 component={SingleProductPage}
               />
               <Route exact path="/cart" component={CartPage} />
+              <Route component={NotFoundPage} />
             </Switch>
             <FooterComponent />
           </Route>
+          <Route component={NotFoundPage} />
         </Switch>
       </Router>
     </>

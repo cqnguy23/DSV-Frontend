@@ -1,3 +1,5 @@
+import moment from "moment";
+import formatUtils from "../../utils/formatUtils";
 import * as types from "../constants/order.constant";
 
 const initialState = {
@@ -18,9 +20,13 @@ const orderReducer = (state = initialState, action) => {
       return { ...state, loading: false };
 
     case types.GET_ORDERS_SUCCESS:
+      const orders = payload.orders.map((order) => {
+        const date = formatUtils.convertToCalendarDate(order.createdAt);
+        return { ...order, convertedDate: date };
+      });
       return {
         ...state,
-        orders: payload.orders,
+        orders: orders,
         totalOrders: payload.totalOrders,
         loading: false,
       };

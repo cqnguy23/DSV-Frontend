@@ -8,7 +8,7 @@ import userActions from "../redux/actions/user.actions";
 
 const AdminInfo = () => {
   const dispatch = useDispatch();
-  const userName = useSelector((state) => state.user.name);
+  const userName = useSelector((state) => state.admin.name);
   const handleLogOut = () => {
     dispatch(adminActions.logout());
   };

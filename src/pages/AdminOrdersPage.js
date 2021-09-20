@@ -9,20 +9,22 @@ import {
   Button,
   DatePicker,
   Pagination,
+  Input,
 } from "antd";
 import { Content, Header } from "antd/lib/layout/layout";
 import React, { useEffect, useState } from "react";
-import userActions from "../redux/actions/user.actions";
-
+import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import orderActions from "../redux/actions/order.actions";
-import moment from "moment";
 import { ClipLoader } from "react-spinners";
 import {
   DownOutlined,
   CheckCircleFilled,
   CloseCircleFilled,
+  SearchOutlined,
+  PlusOutlined,
+  ExportOutlined,
 } from "@ant-design/icons";
 import AdminInfo from "../components/AdminInfo";
 const AdminOrdersPage = () => {
@@ -30,35 +32,61 @@ const AdminOrdersPage = () => {
   const totalOrders = useSelector((state) => state.order.totalOrders);
   let loading = useSelector((state) => state.order.loading);
   const { RangePicker } = DatePicker;
-  const limit = 10;
+  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
+  const [searchKey, setSearchKey] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const handlePageChange = (page) => {
     setPage(page);
   };
+  const handleLimitChange = (current, pageSize) => {
+    setLimit(pageSize);
+  };
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(orderActions.getOrders(page, limit));
-  }, [dispatch, page]);
+    if (startDate === "" || endDate === "") {
+      dispatch(orderActions.getOrders(page, limit, null, null, searchKey));
+    } else {
+      dispatch(
+        orderActions.getOrders(page, limit, startDate, endDate, searchKey)
+      );
+    }
+  }, [dispatch, page, endDate, startDate, limit, searchKey]);
   console.log(orders);
   const handleEditOrderStatus = (id, status) => {
     dispatch(orderActions.updateOrder(id, status));
   };
-
-  function handleDateRangeChange(dates, dateStrings) {
-    console.log("From: ", dates[0], ", to: ", dates[1]);
-    console.log(typeof dates[0]);
-    console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
-  }
-  if (orders.length !== 0) {
-    orders = orders.map((order) => {
-      const date = moment(order.createdAt).calendar(null, {
-        sameDay: "[Today], Do MMM, YYYY",
-        lastDay: "[Yesterday], Do MMM, YYYY",
-        sameElse: "dddd,Do MMM, YYYY",
-      });
-      return { ...order, createdAt: date };
-    });
-  }
+  const handleSearch = (e) => {
+    setPage(1);
+    setSearchKey(e.target.value);
+    // console.log(e.target.value);
+  };
+  const handleDateRangeChange = (dates, dateStrings) => {
+    if (!dates) {
+      setStartDate("");
+      setEndDate("");
+    } else {
+      const startDate = dates[0].utc().format();
+      const endDate = dates[1].utc().format();
+      setPage(1);
+      setStartDate(startDate);
+      setEndDate(endDate);
+    }
+  };
+  const handleFilteredByDate = (date) => {
+    setStartDate("");
+    setEndDate("");
+    let pickedDate;
+    if (date.toLowerCase() === "today") {
+      pickedDate = moment().utc().format();
+    } else if (date.toLowerCase() === "yesterday") {
+      pickedDate = moment().subtract(1, "day").utc().format();
+    }
+    setPage(1);
+    setEndDate(pickedDate);
+    setStartDate(pickedDate);
+  };
 
   return (
     <Layout className="site-layout admin-dashboard-layout">
@@ -79,12 +107,49 @@ const AdminOrdersPage = () => {
             ORDERED DATE{" "}
           </div>
           <RangePicker
+            allowClear="true"
             size="middle"
             style={{ height: "100%" }}
             onChange={handleDateRangeChange}
           />
-          <Button className="admin-date-btn"> Today </Button>
-          <Button className="admin-date-btn"> Yesterday </Button>
+          <Button
+            className="admin-date-btn"
+            onClick={() => {
+              handleFilteredByDate("today");
+            }}
+          >
+            {" "}
+            Today{" "}
+          </Button>
+          <Button
+            className="admin-date-btn"
+            onClick={() => {
+              handleFilteredByDate("yesterday");
+            }}
+          >
+            {" "}
+            Yesterday{" "}
+          </Button>
+          <Row style={{ marginRight: "0", marginLeft: "auto", height: "48px" }}>
+            <Input
+              placeholder="Search order"
+              prefix={<SearchOutlined />}
+              style={{
+                height: "100%",
+                lineHeight: "inherit",
+                width: "280px",
+                marginRight: "20px",
+              }}
+              onChange={handleSearch}
+            />
+
+            <Button
+              icon={<ExportOutlined />}
+              style={{ height: "100%", width: "112px" }}
+            >
+              Export
+            </Button>
+          </Row>
         </Row>
       </Header>
       <Content className="admin-dashboard-content">
@@ -93,7 +158,7 @@ const AdminOrdersPage = () => {
         ) : orders.length === 0 ? (
           <div> No orders have been made </div>
         ) : (
-          <Col>
+          <Col style={{ minHeight: "550px" }}>
             <Row className="site-layout-background admin-dashboard-status-row">
               <Col style={{ marginLeft: "15px" }} span={3}>
                 ORDER ID
@@ -101,7 +166,9 @@ const AdminOrdersPage = () => {
               <Col span={5}>ORDERED DATE</Col>
               <Col span={7}>DETAIL</Col>
               <Col span={3}>TOTAL</Col>
-              <Col span={3}>STATUS</Col>
+              <Col span={3}>
+                STATUS <DownOutlined />
+              </Col>
               <Col span={2}></Col>
             </Row>
             <Divider />
@@ -117,7 +184,7 @@ const AdminOrdersPage = () => {
                   <Col style={{ marginLeft: "15px" }} span={3}>
                     {order._id.slice(-7).toUpperCase()}
                   </Col>
-                  <Col span={5}>{order.createdAt}</Col>
+                  <Col span={5}>{order.convertedDate}</Col>
                   <Col span={7}>{order.products[0].product.name}</Col>
                   <Col span={3}>${order.totalPrice.toFixed(2)}</Col>
                   <Col span={3}>
@@ -129,6 +196,13 @@ const AdminOrdersPage = () => {
                           ? "#82bf11"
                           : "#f05d62    "
                       }
+                      style={{
+                        width: "70px",
+                        textAlign: "center",
+                        borderRadius: "12px",
+                        fontSize: "10px",
+                        height: "20px",
+                      }}
                     >
                       {order.status}
                     </Tag>
@@ -173,9 +247,15 @@ const AdminOrdersPage = () => {
           </Col>
         )}
         <div className="admin-dashboard-pagination">
+          <div>
+            Showing {(page - 1) * limit + 1} to {limit * page} of {totalOrders}{" "}
+            entries
+          </div>
           <Pagination
+            showSizeChanger
             current={page}
             onChange={handlePageChange}
+            onShowSizeChange={handleLimitChange}
             pageSize={limit}
             total={totalOrders}
           />

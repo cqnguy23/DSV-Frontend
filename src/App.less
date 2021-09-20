@@ -281,6 +281,11 @@
 .cart-page-products-row {
   min-height: 60vh;
 }
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+}
 .bg-white {
   background-color: white;
 }
@@ -363,7 +368,7 @@
   font-weight: bold;
 }
 
-/* Admin Login Page */
+/* Admin Dashboard */
 
 .admin-login-form {
   width: 380px;
@@ -443,10 +448,10 @@
 }
 .admin-dashboard-pagination {
   display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
+  justify-content: space-between;
+  margin: 32px 24px 32px 24px;
+  font-size: 14px;
+  font-weight: 500;
 }
 .admin-dashboard-status-row {
   align-items: center;
@@ -479,4 +484,31 @@
 .admin-date-btn {
   height: 100%;
   margin-left: 10px;
+}
+
+.admin-dashboard-products-row {
+  align-items: center;
+  min-height: 64px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #3d3d3f;
+  margin: 0px 24px 0px 24px;
+  border-bottom: 1px solid #ededed;
+}
+.admin-dashboard-products-content {
+  position: relative;
+  border-radius: 2px;
+  box-shadow: 0 10px 24px 0 rgba(0, 0, 0, 0.08);
+  margin: 32px 20px 25px 20px;
+  background-color: white;
+  min-height: 670px;
+}
+.admin-dashboard-products-sortBtn {
+  height: 100%;
+  width: 172px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
 }

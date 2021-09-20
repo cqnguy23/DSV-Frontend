@@ -11,6 +11,10 @@ import {
 import logo from "../image/logo.png";
 import { Route, Switch } from "react-router";
 import AdminOrdersPage from "./AdminOrdersPage";
+import ProtectedRoute from "../components/ProtectedRoute";
+import AdminProductsPage from "./AdminProductsPage";
+import { Link } from "react-router-dom";
+import NotFoundPage from "./NotFoundPage";
 const { Sider } = Layout;
 const AdminDashboardPage = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -28,33 +32,39 @@ const AdminDashboardPage = () => {
 
         <Menu
           theme="light"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={["2"]}
           mode="inline"
           className="admin-dashboard-menu"
         >
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            Overview
+            <Link to="/">Overview</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<ShoppingCartOutlined />}>
-            Orders
+            <Link to="/admin/dashboard">Orders</Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<OrderedListOutlined />}>
-            Products
+            <Link to="/admin/dashboard/products">Products</Link>
           </Menu.Item>
           <Menu.Item key="4" icon={<DollarCircleFilled />}>
-            Payments
+            <Link to="/">Payments</Link>
           </Menu.Item>
           <Menu.Item key="5" icon={<TagFilled />}>
-            Promotions
+            <Link to="/">Promotions</Link>
           </Menu.Item>
           <Menu.Item key="6" icon={<SettingFilled />}>
-            Setting
+            <Link to="/">Setting</Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <Divider type="vertical" style={{ height: "100vh", margin: 0 }} />
       <Switch>
         <Route exact path="/admin/dashboard" component={AdminOrdersPage} />
+        <Route
+          exact
+          path="/admin/dashboard/products"
+          component={AdminProductsPage}
+        />
+        <Route component={NotFoundPage} />
       </Switch>
     </Layout>
   );

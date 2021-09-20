@@ -6,5 +6,23 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+api.interceptors.request.use(
+  (req) => {
+    return req;
+  },
+  (error) => {
+    console.log("Request Error", error);
+    return Promise.reject(error);
+  }
+);
 
+api.interceptors.response.use(
+  (req) => {
+    return req;
+  },
+  (error) => {
+    console.log("Request Error", error);
+    return Promise.reject(error);
+  }
+);
 export default api;

@@ -117,7 +117,7 @@ const CartPage = () => {
                 );
               })}
             </Col>
-            <Col offset={1} span={7}>
+            <Col offset={1} span={7} className="sticky">
               <Row className="total-title"> Total </Row>
               <div className="cart-total-div">
                 <Row className="flex-justify-between">
