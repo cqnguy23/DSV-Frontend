@@ -21,7 +21,7 @@ const NavBar = () => {
   const userName = useSelector((state) => state.user.name);
   const onSearch = () => {};
   const onMenuClick = (gender) => {
-    history.push("/products/gender/" + gender);
+    history.push("/products/" + gender);
   };
 
   const menMenu = (

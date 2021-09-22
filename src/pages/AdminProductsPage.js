@@ -31,9 +31,11 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import formatUtils from "../utils/formatUtils";
+import { useHistory } from "react-router";
 
 const AdminProductsPage = () => {
   const [limit, setLimit] = useState(10);
+  const history = useHistory();
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.data);
   const loading = useSelector((state) => state.products.loading);
@@ -43,6 +45,9 @@ const AdminProductsPage = () => {
   const totalProducts = useSelector((state) => state.products.total);
   const handlePageChange = (page) => {
     setPage(page);
+  };
+  const toAddProduct = () => {
+    history.push("/admin/dashboard/products/add");
   };
   const handleEditProduct = (id, size) => {
     const convertedSize = {
@@ -191,6 +196,7 @@ const AdminProductsPage = () => {
               icon={<PlusOutlined />}
               type="primary"
               style={{ height: "100%", width: "160px", marginRight: "20px" }}
+              onClick={toAddProduct}
             >
               Add Product
             </Button>
@@ -250,7 +256,7 @@ const AdminProductsPage = () => {
                           }}
                         >
                           {formatUtils.capitalizeFirstLetter(product.gender)},{" "}
-                          {product.category}
+                          {product.category[0].name}
                         </div>
                       </Col>
                     </Row>

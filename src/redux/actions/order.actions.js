@@ -5,6 +5,13 @@ import adminActions from "./admin.actions";
 
 const orderActions = {};
 
+const logOutWhenTokenExpired = (res, dispatch) => {
+  const errMsg = res?.data;
+  toastAction.error(errMsg);
+  if (errMsg.toLowerCase().includes("log in")) {
+    dispatch(adminActions.logout());
+  }
+};
 orderActions.getOrders =
   (page, limit, startDate, endDate, search) => async (dispatch) => {
     dispatch({ type: types.GET_ORDERS_REQUEST, payload: null });
@@ -29,11 +36,7 @@ orderActions.getOrders =
     } catch (err) {
       console.log({ err });
       if (err.response) {
-        const errMsg = err?.response?.data;
-        toastAction.error(errMsg);
-        if (errMsg.toLowerCase().includes("log in")) {
-          dispatch(adminActions.logout());
-        }
+        logOutWhenTokenExpired(err.response, dispatch);
       }
       dispatch({ type: types.GET_ORDERS_FAILURE, payload: err });
     }
@@ -53,6 +56,9 @@ orderActions.updateOrder = (id, status) => async (dispatch) => {
     toastAction.success("Order status updated.");
   } catch (err) {
     dispatch({ type: types.UPDATE_ORDER_FAILURE, payload: err });
+    if (err.response) {
+      logOutWhenTokenExpired(err.response, dispatch);
+    }
     toastAction.error(err);
   }
 };

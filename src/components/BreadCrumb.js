@@ -4,24 +4,22 @@ import { Link, useLocation } from "react-router-dom";
 
 const BreadCrumb = ({ id, name }) => {
   const location = useLocation();
-  const gender = location.pathname.split("/gender/")[1].split("/")[0];
+  const gender = location.pathname.split("/products/")[1].split("/")[0];
 
   const breadcrumbNameMap = {
-    "/products/gender/women": "Women",
-    "/products/gender/men": "Men",
-    "/products/gender/boys": "Boys",
-    "/products/gender/girls": "Girls",
+    "/products/women": "Women",
+    "/products/men": "Men",
+    "/products/boys": "Boys",
+    "/products/girls": "Girls",
   };
-  if (id) breadcrumbNameMap["/products/gender/" + gender + "/" + id] = name;
+  if (id) breadcrumbNameMap["/products/" + gender + "/" + id] = name;
   const pathSnippets = location.pathname
-    .split("/gender")[1]
+    .split("/products")[1]
     .split("/")
     .filter((i) => i);
   console.log(pathSnippets);
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
-    const url = `/products/gender/${pathSnippets
-      .slice(0, index + 1)
-      .join("/")}`;
+    const url = `/products/${pathSnippets.slice(0, index + 1).join("/")}`;
     console.log(url);
     return (
       <Breadcrumb.Item key={url}>

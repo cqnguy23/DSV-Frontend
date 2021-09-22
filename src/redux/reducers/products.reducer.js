@@ -8,6 +8,7 @@ const initialState = {
   gender: "",
   total: 0,
   page: 1,
+  categories: [],
 };
 
 const productsReducer = (state = initialState, action) => {
@@ -17,11 +18,15 @@ const productsReducer = (state = initialState, action) => {
     case types.GET_SINGLE_PRODUCT_REQUEST:
     case types.DELETE_PRODUCT_REQUEST:
     case types.EDIT_PRODUCT_REQUEST:
+    case types.GET_CATEGORIES_REQUEST:
+    case types.ADD_PRODUCT_REQUEST:
       return { ...state, loading: true };
     case types.GET_PRODUCTS_FAILURE:
     case types.GET_SINGLE_PRODUCT_FAILURE:
     case types.DELETE_PRODUCT_FAILURE:
     case types.EDIT_PRODUCT_FAILURE:
+    case types.GET_CATEGORIES_FAILURE:
+    case types.ADD_PRODUCT_FAILURE:
       return { ...state, loading: false };
     case types.GET_PRODUCTS_SUCCESS:
       return {
@@ -58,6 +63,14 @@ const productsReducer = (state = initialState, action) => {
           } else return product;
         }),
       };
+    case types.GET_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        categories: payload,
+      };
+    case types.ADD_PRODUCT_SUCCESS:
+      return state;
     default:
       return state;
   }

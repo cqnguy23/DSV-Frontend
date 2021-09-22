@@ -44,14 +44,10 @@ function App() {
 
             <Switch>
               <Route exact path="/" component={HomePage} />
+              <Route exact path="/products/:gender" component={ProductsPage} />
               <Route
                 exact
-                path="/products/gender/:gender"
-                component={ProductsPage}
-              />
-              <Route
-                exact
-                path="/products/gender/:gender/:id"
+                path="/products/:gender/:id"
                 component={SingleProductPage}
               />
               <Route exact path="/cart" component={CartPage} />

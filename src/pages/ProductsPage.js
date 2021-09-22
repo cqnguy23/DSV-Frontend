@@ -22,7 +22,7 @@ const ProductsPage = () => {
     setPage(page);
   };
   const onProductClick = (id) => {
-    history.push(`/products/gender/${gender}/${id}`);
+    history.push(`/products/${gender}/${id}`);
   };
   useEffect(() => {
     dispatch(productsAction.getProducts(page, limit, gender));
@@ -66,6 +66,7 @@ const ProductsPage = () => {
                           alt="product"
                           src={product.imgURL[0]}
                           height="270px"
+                          style={{ objectFit: "cover" }}
                         />
                       }
                       onClick={() => {

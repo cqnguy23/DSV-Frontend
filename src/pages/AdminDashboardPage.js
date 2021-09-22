@@ -15,6 +15,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import AdminProductsPage from "./AdminProductsPage";
 import { Link } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
+import AddProductPage from "./AddProductPage";
 const { Sider } = Layout;
 const AdminDashboardPage = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -63,6 +64,11 @@ const AdminDashboardPage = () => {
           exact
           path="/admin/dashboard/products"
           component={AdminProductsPage}
+        />
+        <Route
+          exact
+          path="/admin/dashboard/products/add"
+          component={AddProductPage}
         />
         <Route component={NotFoundPage} />
       </Switch>

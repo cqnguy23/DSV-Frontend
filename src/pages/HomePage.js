@@ -10,7 +10,7 @@ const HomePage = () => {
   const history = useHistory();
 
   const onClick = (gender) => {
-    history.push("/products/gender/" + gender);
+    history.push("/products/" + gender);
   };
   return (
     <Layout className="homepage-layout">

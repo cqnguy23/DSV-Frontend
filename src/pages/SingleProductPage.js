@@ -177,15 +177,18 @@ const SingleProductPage = () => {
                   >
                     <div
                       className="circle"
-                      style={{ backgroundColor: "red", marginRight: "20px" }}
-                    ></div>
-                    <div
-                      className="circle"
-                      style={{ backgroundColor: "blue", marginRight: "20px" }}
-                    ></div>
-                    <div
-                      className="circle"
-                      style={{ backgroundColor: "purple", marginRight: "20px" }}
+                      style={
+                        product.color === "Other"
+                          ? {
+                              backgroundImage:
+                                "linear-gradient(red, yellow, green)",
+                              marginRight: "20px",
+                            }
+                          : {
+                              backgroundColor: product.color,
+                              marginRight: "20px",
+                            }
+                      }
                     ></div>
                   </Row>
                 </div>
@@ -204,7 +207,7 @@ const SingleProductPage = () => {
                     Quantity
                   </div>
                   <QuantityPicker
-                    min={0}
+                    min={1}
                     max={product.size[size]}
                     onChange={getSelectedValue}
                   />
