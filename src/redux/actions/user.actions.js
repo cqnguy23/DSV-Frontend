@@ -52,6 +52,39 @@ userActions.resgister =
       toastAction.error("Registration Failed!");
     }
   };
+userActions.getUserOrders = () => async (dispatch) => {
+  dispatch({ type: types.USER_GET_ORDER_REQUEST, payload: null });
+  try {
+    let url = "/order/user";
+    const resp = await api.get(url);
+    const orders = await resp.data;
+    console.log({ orders });
+    dispatch({ type: types.USER_GET_ORDER_SUCCESS, payload: orders });
+    // toastAction.success("Registration Success!");
+
+    // console.log(user);
+  } catch (err) {
+    dispatch({ type: types.USER_GET_ORDER_FAILURE, payload: err });
+    toastAction.error("Get Orders Failed!");
+  }
+};
+userActions.cancelOrder = (orderID) => async (dispatch) => {
+  dispatch({ type: types.USER_CANCEL_ORDER_REQUEST, payload: null });
+  try {
+    let url = "/order/cancellation/" + orderID;
+    const resp = await api.patch(url);
+    const orders = await resp.data;
+    console.log({ orders });
+    dispatch({ type: types.USER_CANCEL_ORDER_SUCCESS, payload: orders });
+    // toastAction.success("Registration Success!");
+
+    // console.log(user);
+  } catch (err) {
+    dispatch({ type: types.USER_CANCEL_ORDER_FAILURE, payload: err });
+    console.log({ err });
+    toastAction.error("Get Orders Failed!");
+  }
+};
 
 userActions.logout = () => async (dispatch) => {
   dispatch({ type: types.USER_LOGOUT_REQUEST, payload: null });

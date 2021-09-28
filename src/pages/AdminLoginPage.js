@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Form, Input, Button, Layout } from "antd";
-import userActions from "../redux/actions/user.actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import adminActions from "../redux/actions/admin.actions";

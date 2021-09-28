@@ -17,10 +17,10 @@ const BreadCrumb = ({ id, name }) => {
     .split("/products")[1]
     .split("/")
     .filter((i) => i);
-  console.log(pathSnippets);
+  // console.log(pathSnippets);
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/products/${pathSnippets.slice(0, index + 1).join("/")}`;
-    console.log(url);
+    // console.log(url);
     return (
       <Breadcrumb.Item key={url}>
         <Link to={url}>{breadcrumbNameMap[url]}</Link>

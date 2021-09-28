@@ -6,6 +6,8 @@ import {
   PlusOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
+import api from "../api";
+
 import {
   Layout,
   Row,
@@ -21,17 +23,18 @@ import {
   Form,
 } from "antd";
 import { ClipLoader } from "react-spinners";
+import { CSVLink } from "react-csv";
 
 import { Content, Header } from "antd/lib/layout/layout";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import AdminInfo from "../components/AdminInfo";
 import productActions from "../redux/actions/products.actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import moment from "moment";
 import formatUtils from "../utils/formatUtils";
 import { useHistory } from "react-router";
+import UploadButton from "../components/UploadButton";
 
 const AdminProductsPage = () => {
   const [limit, setLimit] = useState(10);
@@ -43,6 +46,19 @@ const AdminProductsPage = () => {
   const [sortType, setSortType] = useState("addedDate");
   const [searchKey, setSearchKey] = useState("");
   const totalProducts = useSelector((state) => state.products.total);
+  const csvLink = useRef();
+  const [csvProductsData, setCsvProductsData] = useState([]);
+  const headers = [
+    { label: "Product ID", key: "id" },
+    { label: "Product Name", key: "name" },
+    { label: "Quantity (S)", key: "s" },
+    { label: "Quantity (M)", key: "m" },
+    { label: "Quantity (L)", key: "l" },
+    { label: "Sold", key: "sold" },
+    { label: "Price", key: "price" },
+    { label: "Profit earned", key: "profit" },
+    { label: "Date Created", key: "dateCreated" },
+  ];
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -154,9 +170,42 @@ const AdminProductsPage = () => {
   };
   useEffect(() => {
     dispatch(
-      productActions.getProducts(page, limit, "all", sortType, searchKey)
+      productActions.getProducts({
+        role: "admin",
+        page,
+        limit,
+        sortType,
+        searchKey,
+      })
     );
   }, [dispatch, page, limit, sortType, searchKey]);
+
+  const handleExportProducts = async () => {
+    try {
+      let url = "/products/admin/all";
+
+      const resp = await api.get(url);
+      const exportedProducts = await resp.data;
+      console.log(exportedProducts);
+      const csvData = exportedProducts.map((product) => {
+        return {
+          id: product._id,
+          name: product.name,
+          s: product.size.s,
+          m: product.size.m,
+          l: product.size.l,
+          sold: product.sold,
+          price: product.price,
+          profit: (product.price * product.sold).toFixed(2),
+          dateCreated: product.createdAt,
+        };
+      });
+      setCsvProductsData(csvData);
+      csvLink.current.link.click();
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Layout className="site-layout admin-dashboard-layout">
       <Header className="site-layout-background admin-dashboard-header">
@@ -187,7 +236,7 @@ const AdminProductsPage = () => {
               style={{
                 height: "100%",
                 lineHeight: "inherit",
-                width: "280px",
+                width: "200px",
                 marginRight: "20px",
               }}
               onChange={handleSearch}
@@ -202,16 +251,34 @@ const AdminProductsPage = () => {
             </Button>
             <Button
               icon={<ExportOutlined />}
-              style={{ height: "100%", width: "112px" }}
+              style={{ height: "100%", width: "100px" }}
+              onClick={handleExportProducts}
             >
               Export
             </Button>
+            <CSVLink
+              data={csvProductsData}
+              headers={headers}
+              filename="products.csv"
+              className="hidden"
+              ref={csvLink}
+              target="_blank"
+            />
+            <UploadButton />
           </Row>
         </Row>
       </Header>
       <Content className="admin-dashboard-products-content">
         {loading ? (
-          <ClipLoader />
+          <div
+            style={{
+              minHeight: "550px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <ClipLoader />
+          </div>
         ) : products.length === 0 ? (
           <div> No orders have been made </div>
         ) : (
@@ -234,6 +301,7 @@ const AdminProductsPage = () => {
                   style={{
                     backgroundColor: idx % 2 === 1 ? "#f6f6f6" : "none",
                   }}
+                  key={idx}
                 >
                   <Col style={{ marginLeft: "15px" }} span={8}>
                     <Row>
@@ -242,6 +310,7 @@ const AdminProductsPage = () => {
                           src={product.imgURL[0]}
                           width="30px"
                           height="40px"
+                          alt="product"
                         />
                       </Col>
                       <Col style={{ marginLeft: "15px", maxWidth: "280px" }}>

@@ -12,7 +12,7 @@ import {
   Input,
 } from "antd";
 import { Content, Header } from "antd/lib/layout/layout";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -23,10 +23,12 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   SearchOutlined,
-  PlusOutlined,
   ExportOutlined,
 } from "@ant-design/icons";
 import AdminInfo from "../components/AdminInfo";
+import { CSVLink } from "react-csv";
+
+import api from "../api";
 const AdminOrdersPage = () => {
   let orders = useSelector((state) => state.order.orders);
   const totalOrders = useSelector((state) => state.order.totalOrders);
@@ -35,8 +37,16 @@ const AdminOrdersPage = () => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const [searchKey, setSearchKey] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [dateRange, setDateRange] = useState([]);
+  const [csvOrdersData, setCsvOrdersData] = useState([]);
+  const csvLink = useRef();
+  const headers = [
+    { label: "Order ID", key: "id" },
+    { label: "Detail", key: "product" },
+    { label: "Date Created", key: "dateCreated" },
+    { label: "Subtotal", key: "subtotal" },
+    { label: "Status", key: "status" },
+  ];
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -45,14 +55,20 @@ const AdminOrdersPage = () => {
   };
   const dispatch = useDispatch();
   useEffect(() => {
-    if (startDate === "" || endDate === "") {
-      dispatch(orderActions.getOrders(page, limit, null, null, searchKey));
+    if (dateRange.length === 0) {
+      dispatch(orderActions.getOrders({ page, limit, search: searchKey }));
     } else {
       dispatch(
-        orderActions.getOrders(page, limit, startDate, endDate, searchKey)
+        orderActions.getOrders({
+          page,
+          limit,
+          startDate: dateRange[0].format(),
+          endDate: dateRange[1].format(),
+          search: searchKey,
+        })
       );
     }
-  }, [dispatch, page, endDate, startDate, limit, searchKey]);
+  }, [dispatch, page, dateRange, limit, searchKey]);
   console.log(orders);
   const handleEditOrderStatus = (id, status) => {
     dispatch(orderActions.updateOrder(id, status));
@@ -60,34 +76,50 @@ const AdminOrdersPage = () => {
   const handleSearch = (e) => {
     setPage(1);
     setSearchKey(e.target.value);
-    // console.log(e.target.value);
+    console.log(e.target.value);
   };
   const handleDateRangeChange = (dates, dateStrings) => {
     if (!dates) {
-      setStartDate("");
-      setEndDate("");
+      setDateRange([]);
     } else {
-      const startDate = dates[0].utc().format();
-      const endDate = dates[1].utc().format();
+      const startDate = dates[0].utc();
+      const endDate = dates[1].utc();
       setPage(1);
-      setStartDate(startDate);
-      setEndDate(endDate);
+      setDateRange([startDate, endDate]);
     }
   };
   const handleFilteredByDate = (date) => {
-    setStartDate("");
-    setEndDate("");
     let pickedDate;
     if (date.toLowerCase() === "today") {
-      pickedDate = moment().utc().format();
+      pickedDate = moment().utc();
     } else if (date.toLowerCase() === "yesterday") {
-      pickedDate = moment().subtract(1, "day").utc().format();
+      pickedDate = moment().subtract(1, "day").utc();
     }
     setPage(1);
-    setEndDate(pickedDate);
-    setStartDate(pickedDate);
+    setDateRange([pickedDate, pickedDate]);
   };
+  const handleExportOrders = async () => {
+    try {
+      let url = "/order/all";
 
+      const resp = await api.get(url);
+      const exportedOrders = await resp.data;
+      console.log(exportedOrders);
+      const csvData = exportedOrders.map((order) => {
+        return {
+          id: order._id.slice(-7).toUpperCase(),
+          product: order.products[0].product.name,
+          dateCreated: order.createdAt,
+          subtotal: order.totalPrice,
+          status: order.status,
+        };
+      });
+      setCsvOrdersData(csvData);
+      csvLink.current.link.click();
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Layout className="site-layout admin-dashboard-layout">
       <Header className="site-layout-background admin-dashboard-header">
@@ -110,6 +142,7 @@ const AdminOrdersPage = () => {
             allowClear="true"
             size="middle"
             style={{ height: "100%" }}
+            value={dateRange}
             onChange={handleDateRangeChange}
           />
           <Button
@@ -137,7 +170,7 @@ const AdminOrdersPage = () => {
               style={{
                 height: "100%",
                 lineHeight: "inherit",
-                width: "280px",
+                width: "240px",
                 marginRight: "20px",
               }}
               onChange={handleSearch}
@@ -146,17 +179,36 @@ const AdminOrdersPage = () => {
             <Button
               icon={<ExportOutlined />}
               style={{ height: "100%", width: "112px" }}
+              onClick={handleExportOrders}
             >
               Export
             </Button>
+            <CSVLink
+              data={csvOrdersData}
+              headers={headers}
+              filename="orders.csv"
+              ref={csvLink}
+              target="_blank"
+            />
           </Row>
         </Row>
       </Header>
       <Content className="admin-dashboard-content">
         {loading ? (
-          <ClipLoader />
+          <div
+            style={{
+              minHeight: "550px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <ClipLoader />
+          </div>
         ) : orders.length === 0 ? (
-          <div> No orders have been made </div>
+          <div style={{ minHeight: "550px", margin: "25px", fontSize: "16px" }}>
+            {" "}
+            No orders have been made{" "}
+          </div>
         ) : (
           <Col style={{ minHeight: "550px" }}>
             <Row className="site-layout-background admin-dashboard-status-row">
@@ -176,6 +228,7 @@ const AdminOrdersPage = () => {
             {orders.map((order, idx) => {
               return (
                 <Row
+                  key={idx}
                   className="site-layout-background admin-dashboard-order-row"
                   style={{
                     backgroundColor: idx % 2 === 1 ? "#f6f6f6" : "none",

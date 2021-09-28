@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Image, Layout, Row } from "antd";
+import { Affix, Button, Col, Divider, Image, Layout, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { QuantityPicker } from "react-qty-picker";
@@ -97,7 +97,7 @@ const CartPage = () => {
                       <Col span={6} className="cart-quantity">
                         <QuantityPicker
                           min={1}
-                          width={"30px"}
+                          width={"30p x"}
                           max={product.maxQuantity}
                           value={product.quantity}
                           onChange={(value) => {
@@ -117,33 +117,35 @@ const CartPage = () => {
                 );
               })}
             </Col>
-            <Col offset={1} span={7} className="sticky">
-              <Row className="total-title"> Total </Row>
-              <div className="cart-total-div">
-                <Row className="flex-justify-between">
-                  <Col>Shipping & Handling:</Col>
-                  <Col>Free</Col>
+            <Col offset={1} span={7}>
+              <Affix offsetTop={10}>
+                <Row className="total-title"> Total </Row>
+                <div className="cart-total-div">
+                  <Row className="flex-justify-between">
+                    <Col>Shipping & Handling:</Col>
+                    <Col>Free</Col>
+                  </Row>
+                  <Row className="flex-justify-between mb-15">
+                    <Col>Total Product:</Col>
+                    <Col>${totalAmount}</Col>
+                  </Row>
+                  <Divider />
+                  <Row className="flex-justify-between total-title">
+                    <Col>Subtotal</Col>
+                    <Col>${totalAmount}</Col>
+                  </Row>
+                </div>
+                <Row>
+                  <Button
+                    className="checkout-btn"
+                    type="primary"
+                    loading={loading}
+                    onClick={handleSubmitOrder}
+                  >
+                    Checkout{" "}
+                  </Button>
                 </Row>
-                <Row className="flex-justify-between mb-15">
-                  <Col>Total Product:</Col>
-                  <Col>${totalAmount}</Col>
-                </Row>
-                <Divider />
-                <Row className="flex-justify-between total-title">
-                  <Col>Subtotal</Col>
-                  <Col>${totalAmount}</Col>
-                </Row>
-              </div>
-              <Row>
-                <Button
-                  className="checkout-btn"
-                  type="primary"
-                  loading={loading}
-                  onClick={handleSubmitOrder}
-                >
-                  Checkout{" "}
-                </Button>
-              </Row>
+              </Affix>
             </Col>
           </Row>
         )}

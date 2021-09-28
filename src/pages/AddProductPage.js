@@ -3,14 +3,8 @@ import {
   Layout,
   Row,
   Col,
-  Divider,
-  Dropdown,
-  Menu,
   Button,
-  Pagination,
   Input,
-  Popconfirm,
-  Popover,
   Select,
   Form,
   Breadcrumb,
@@ -19,7 +13,6 @@ import { Content, Header } from "antd/lib/layout/layout";
 import AdminInfo from "../components/AdminInfo";
 import { useDispatch, useSelector } from "react-redux";
 
-import BreadCrumb from "../components/BreadCrumb";
 import { Link } from "react-router-dom";
 import productActions from "../redux/actions/products.actions";
 import formatUtils from "../utils/formatUtils";
@@ -62,8 +55,9 @@ const AddProductPage = () => {
   const onFinish = (values) => {
     const urls = imgUrls.filter((url) => url !== "");
     values.imgURL = urls;
-
     dispatch(productActions.addProduct(values));
+    form.resetFields();
+    setImgUrls(["", "", "", ""]);
     console.log(values);
   };
   const onReset = () => {
@@ -179,7 +173,7 @@ const AddProductPage = () => {
                       <div
                         style={{
                           height: "270px",
-                          width: "180px",
+                          width: "12vw",
                           backgroundColor: "rgba(255, 255, 255, 0.5)",
                           position: "relative",
                         }}
@@ -204,7 +198,7 @@ const AddProductPage = () => {
                       <div style={{ position: "relative" }}>
                         <img
                           height="270px"
-                          width="180px"
+                          width="12vw"
                           alt="img"
                           src={img}
                           style={{ objectFit: "cover" }}
@@ -311,14 +305,14 @@ const AddProductPage = () => {
               <Button
                 htmlType="button"
                 onClick={onReset}
-                style={{ marginRight: "20px", width: "180px", height: "48px" }}
+                style={{ marginRight: "20px", width: "12vw", height: "48px" }}
               >
                 Cancel
               </Button>
               <Button
                 type="primary"
                 htmlType="submit"
-                style={{ width: "180px", height: "48px" }}
+                style={{ width: "12vw", height: "48px" }}
               >
                 Complete
               </Button>

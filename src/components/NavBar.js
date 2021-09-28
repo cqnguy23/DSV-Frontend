@@ -1,19 +1,27 @@
-import { Col, Layout, Row, Button, Divider, Dropdown, Menu } from "antd";
+import {
+  Col,
+  Layout,
+  Row,
+  Button,
+  Divider,
+  Dropdown,
+  Menu,
+  Badge,
+  Avatar,
+} from "antd";
 import Search from "antd/lib/input/Search";
 import { Header } from "antd/lib/layout/layout";
-import {
-  CaretDownOutlined,
-  DownOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
-import React, { useState } from "react";
+import { DownOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
 import logo from "../image/logo.png";
 import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import userActions from "../redux/actions/user.actions";
 import RegisterModal from "./RegisterModal";
 import LoginModal from "./LoginModal";
+import formatUtils from "../utils/formatUtils";
 import { Link } from "react-router-dom";
+import productActions from "../redux/actions/products.actions";
 const NavBar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -23,46 +31,14 @@ const NavBar = () => {
   const onMenuClick = (gender) => {
     history.push("/products/" + gender);
   };
-
-  const menMenu = (
-    <Menu
-      onClick={() => {
-        onMenuClick("men");
-      }}
-    >
-      <Menu.Item key="1">All</Menu.Item>
-    </Menu>
-  );
-  const womenMenu = (
-    <Menu
-      onClick={() => {
-        onMenuClick("women");
-      }}
-    >
-      <Menu.Item key="1">All</Menu.Item>
-    </Menu>
-  );
-  const girlsMenu = (
-    <Menu
-      onClick={() => {
-        onMenuClick("girls");
-      }}
-    >
-      <Menu.Item key="1">All</Menu.Item>
-    </Menu>
-  );
-  const boysMenu = (
-    <Menu
-      onClick={() => {
-        onMenuClick("boys");
-      }}
-    >
-      <Menu.Item key="1">All</Menu.Item>
-    </Menu>
-  );
+  const handleProfileClick = () => {
+    history.push("/user/");
+  };
+  const genderArray = ["men", "women", "boys", "girls"];
+  const categories = useSelector((state) => state.products.categories);
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
   const [isLogInModalVisible, setIsLogInModalVisible] = useState(false);
-
+  const products = useSelector((state) => state.cart.products);
   const showRegisterModal = () => {
     setIsRegisterModalVisible(true);
   };
@@ -74,12 +50,28 @@ const NavBar = () => {
   const handleLogOut = () => {
     dispatch(userActions.logout());
   };
+  useEffect(() => {
+    dispatch(productActions.getCategories());
+  }, [dispatch]);
+  const menCategories = categories.filter((category) =>
+    category.gender.includes("men")
+  );
+  // const womenCategories = categories.filter((category) =>
+  //   category.gender.includes("women")
+  // );
+  // const boysCategories = categories.filter((category) =>
+  //   category.gender.includes("boys")
+  // );
+  // const girlsCategories = categories.filter((category) =>
+  //   category.gender.includes("girls")
+  // );
+  console.log(menCategories);
   return (
     <>
       <Layout className="header-layout">
         <Header className="header">
           <Row className="header-row">
-            <Col className="header-col flex-start" span={6}>
+            <Col className="header-col flex-start" span={10}>
               <Search
                 placeholder="input search text"
                 allowClear
@@ -87,7 +79,7 @@ const NavBar = () => {
                 style={{ width: 200 }}
               />
             </Col>
-            <Col className="header-col" span={6}>
+            <Col className="header-col" span={4}>
               <Link to="/">
                 <img
                   alt="logo"
@@ -97,15 +89,35 @@ const NavBar = () => {
                 />
               </Link>
             </Col>
-            <Col className="header-col flex-end" span={6}>
+            <Col className="header-col flex-end" span={10}>
               {isLoggedIn ? (
                 <>
                   <div style={{ marginRight: "10px" }}>
-                    Welcome back, {userName}!
+                    Welcome back, {userName}
                   </div>
-                  <Button size="small" onClick={handleLogOut}>
-                    Log Out
-                  </Button>
+                  <Dropdown
+                    overlay={
+                      <Menu>
+                        <Menu.Item key="1" onClick={handleProfileClick}>
+                          My Profile
+                        </Menu.Item>
+                        <Menu.Item key="2" onClick={handleLogOut}>
+                          Log Out
+                        </Menu.Item>
+                      </Menu>
+                    }
+                    placement="bottomCenter"
+                  >
+                    <Avatar
+                      style={{
+                        backgroundColor: "",
+                        border: "2px solid #ffa15f",
+                        cursor: "pointer",
+                      }}
+                      src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      size="medium"
+                    />
+                  </Dropdown>
                 </>
               ) : (
                 <>
@@ -123,8 +135,8 @@ const NavBar = () => {
                     className="header-login-btn"
                     style={{
                       borderRadius: "100px",
-                      borderColor: "ffa15f",
-                      color: "pale-orange",
+                      border: "1px solid #ffa15f",
+                      color: "#ffa15f",
                       minWidth: "120px",
                       minHeight: "35px",
                       marginLeft: "24px",
@@ -135,61 +147,57 @@ const NavBar = () => {
                 </>
               )}
               <Link to="/cart">
-                <ShoppingCartOutlined
-                  style={{ fontSize: "24px", marginLeft: "10px" }}
-                />
+                <Badge
+                  count={products.length}
+                  style={{ color: "white", backgroundColor: "#ffa15f" }}
+                >
+                  <Avatar
+                    size="small"
+                    shape="square"
+                    className="profile-cart"
+                    style={{
+                      marginLeft: "20px",
+                      backgroundColor: "white",
+                      color: "black",
+                      fontSize: "22px",
+                    }}
+                    icon={<ShoppingCartOutlined />}
+                  />
+                </Badge>
               </Link>
             </Col>
           </Row>
         </Header>
-        <Divider style={{ margin: "0" }} />
+        <Divider />
         <Row className="navbar-menu">
-          <Col className="header-col" span={2}>
-            <Dropdown overlay={menMenu}>
-              <a
-                href="/#"
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
-                Men <DownOutlined />
-              </a>
-            </Dropdown>
-          </Col>
-          <Col className="header-col" span={2}>
-            <Dropdown overlay={womenMenu}>
-              <a
-                href="/#"
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
-                Women <DownOutlined />
-              </a>
-            </Dropdown>
-          </Col>
-          <Col className="header-col" span={2}>
-            <Dropdown overlay={boysMenu}>
-              <a
-                href="/#"
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
-                Boys <DownOutlined />
-              </a>
-            </Dropdown>
-          </Col>
-          <Col className="header-col" span={2}>
-            <Dropdown overlay={girlsMenu}>
-              <a
-                href="/#"
-                className="ant-dropdown-link"
-                onClick={(e) => e.preventDefault()}
-              >
-                Girls <DownOutlined />
-              </a>
-            </Dropdown>
-          </Col>
+          {genderArray.map((gender, idx) => {
+            return (
+              <Col className="header-col" span={2} key={idx}>
+                <Dropdown
+                  overlay={
+                    <Menu
+                      onClick={() => {
+                        onMenuClick(gender);
+                      }}
+                      style={{ display: "flex" }}
+                    >
+                      <Menu.Item key="1">All</Menu.Item>
+                    </Menu>
+                  }
+                  placement="bottomCenter"
+                >
+                  <a
+                    href="/#"
+                    className="ant-dropdown-link"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    {formatUtils.capitalizeFirstLetter(gender)} <DownOutlined />
+                  </a>
+                </Dropdown>
+              </Col>
+            );
+          })}
         </Row>
-        <Divider style={{ marginTop: "10px" }} />
       </Layout>
       <RegisterModal
         isRegisterModalVisible={isRegisterModalVisible}

@@ -1,4 +1,3 @@
-import moment from "moment";
 import formatUtils from "../../utils/formatUtils";
 import * as types from "../constants/order.constant";
 

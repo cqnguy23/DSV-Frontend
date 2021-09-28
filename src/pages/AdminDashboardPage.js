@@ -11,11 +11,11 @@ import {
 import logo from "../image/logo.png";
 import { Route, Switch } from "react-router";
 import AdminOrdersPage from "./AdminOrdersPage";
-import ProtectedRoute from "../components/ProtectedRoute";
 import AdminProductsPage from "./AdminProductsPage";
 import { Link } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
 import AddProductPage from "./AddProductPage";
+import AdminOverviewPage from "./AdminOverviewPage";
 const { Sider } = Layout;
 const AdminDashboardPage = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -33,15 +33,15 @@ const AdminDashboardPage = () => {
 
         <Menu
           theme="light"
-          defaultSelectedKeys={["2"]}
+          defaultSelectedKeys={["1"]}
           mode="inline"
           className="admin-dashboard-menu"
         >
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <Link to="/">Overview</Link>
+            <Link to="/admin/dashboard/">Overview</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<ShoppingCartOutlined />}>
-            <Link to="/admin/dashboard">Orders</Link>
+            <Link to="/admin/dashboard/orders">Orders</Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<OrderedListOutlined />}>
             <Link to="/admin/dashboard/products">Products</Link>
@@ -59,7 +59,12 @@ const AdminDashboardPage = () => {
       </Sider>
       <Divider type="vertical" style={{ height: "100vh", margin: 0 }} />
       <Switch>
-        <Route exact path="/admin/dashboard" component={AdminOrdersPage} />
+        <Route exact path="/admin/dashboard" component={AdminOverviewPage} />
+        <Route
+          exact
+          path="/admin/dashboard/orders"
+          component={AdminOrdersPage}
+        />
         <Route
           exact
           path="/admin/dashboard/products"

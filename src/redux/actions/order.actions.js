@@ -13,7 +13,8 @@ const logOutWhenTokenExpired = (res, dispatch) => {
   }
 };
 orderActions.getOrders =
-  (page, limit, startDate, endDate, search) => async (dispatch) => {
+  ({ page, limit, startDate, endDate, search }) =>
+  async (dispatch) => {
     dispatch({ type: types.GET_ORDERS_REQUEST, payload: null });
     try {
       let url = "/order";
@@ -30,6 +31,7 @@ orderActions.getOrders =
       if (search) {
         url += "&search=" + search;
       }
+      console.log(search);
       const resp = await api.get(url);
       const data = await resp.data;
       dispatch({ type: types.GET_ORDERS_SUCCESS, payload: data });

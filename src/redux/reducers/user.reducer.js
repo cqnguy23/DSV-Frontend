@@ -1,5 +1,6 @@
 import * as types from "../constants/user.constant.js";
 import api from "../../api";
+import formatUtils from "../../utils/formatUtils.js";
 const initialUser = localStorage.getItem("loggedInUser");
 let token = localStorage.getItem("token");
 
@@ -12,6 +13,7 @@ const initialState = initialUser
       loading: false,
       cart: [],
       role: "",
+      orders: [],
     };
 if (token) {
   token = JSON.parse(token);
@@ -65,10 +67,41 @@ const userReducer = (state = initialState, action) => {
         loading: false,
         cart: [],
         role: "",
+        orders: [],
       };
     case types.USER_LOGOUT_FAILURE:
       return { ...state, loading: false };
 
+    case types.USER_GET_ORDER_REQUEST:
+      return { ...state, loading: true };
+    case types.USER_GET_ORDER_SUCCESS:
+      const orders = payload.map((order) => {
+        const date = formatUtils.convertToCalendarDate(order.createdAt);
+        return { ...order, convertedDate: date };
+      });
+      return {
+        ...state,
+        loading: false,
+        orders: orders,
+      };
+    case types.USER_GET_ORDER_FAILURE:
+      return { ...state, loading: false };
+
+    case types.USER_CANCEL_ORDER_REQUEST:
+      return { ...state, loading: true };
+    case types.USER_CANCEL_ORDER_SUCCESS:
+      const deletedOrders = state.orders.map((order) => {
+        if (payload._id === order._id) {
+          return { ...order, status: "Cancelled" };
+        } else return order;
+      });
+      return {
+        ...state,
+        loading: false,
+        orders: deletedOrders,
+      };
+    case types.USER_CANCEL_ORDER_FAILURE:
+      return { ...state, loading: false };
     default:
       return state;
   }

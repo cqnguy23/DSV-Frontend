@@ -14,12 +14,12 @@ const HomePage = () => {
   };
   return (
     <Layout className="homepage-layout">
-      <Row className="position-relative">
+      <Row className="position-relative min-height-1000">
         <img alt="cover" width="100%" height="100%" src={cover} />
         <div className="top-right">OUTFIT OF THE WEEK</div>
         <Button
           type="primary"
-          className="bottom-right"
+          className="bottom-right homepage-top-btn"
           onClick={() => {
             onClick("women");
           }}
@@ -35,13 +35,14 @@ const HomePage = () => {
           marginTop: "10px",
         }}
       >
-        <Col className="position-relative width-24">
+        <Col className="position-relative width-24 min-height-280">
           <img alt="men" width="100%" height="100%" src={menImg} />
           <div className="bottom-centered">
             <div>Men</div>
-            <Divider style={{ margin: "5px", color: "white" }} />
+            <Divider className="homepage-divider" />
             <Button
               type="primary"
+              className="homepage-menu-btn"
               onClick={() => {
                 onClick("men");
               }}
@@ -50,13 +51,14 @@ const HomePage = () => {
             </Button>
           </div>
         </Col>
-        <Col className="position-relative width-24">
+        <Col className="position-relative width-24 min-height-280">
           <img alt="woman" width="100%" height="100%" src={womenImg} />
           <div className="bottom-centered">
             <div>Women</div>
-            <Divider style={{ margin: "5px", color: "white" }} />
+            <Divider className="homepage-divider" />
             <Button
               type="primary"
+              className="homepage-menu-btn"
               onClick={() => {
                 onClick("women");
               }}
@@ -65,13 +67,14 @@ const HomePage = () => {
             </Button>
           </div>
         </Col>
-        <Col className="position-relative width-24">
+        <Col className="position-relative width-24 min-height-280">
           <img alt="woman" width="100%" height="100%" src={boysImg} />
           <div className="bottom-centered">
             <div>Boys</div>
-            <Divider style={{ margin: "5px", color: "white" }} />
+            <Divider className="homepage-divider" />
             <Button
               type="primary"
+              className="homepage-menu-btn"
               onClick={() => {
                 onClick("boys");
               }}
@@ -80,18 +83,19 @@ const HomePage = () => {
             </Button>
           </div>
         </Col>
-        <Col className="position-relative width-24">
+        <Col className="position-relative width-24 min-height-280">
           <img alt="woman" width="100%" height="100%" src={girlsImg} />
           <div className="bottom-centered">
             <div>Girls</div>
-            <Divider style={{ margin: "5px", color: "white" }} />
+            <Divider className="homepage-divider" />
             <Button
               type="primary"
+              className="homepage-menu-btn"
               onClick={() => {
                 onClick("girls");
               }}
             >
-              Girls
+              Shop now
             </Button>
           </div>
         </Col>
