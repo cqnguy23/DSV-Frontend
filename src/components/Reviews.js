@@ -16,10 +16,8 @@ const Reviews = () => {
     (state) => state.products.selectedProduct.product.reviewsID
   );
   const onFinish = (values) => {
-    console.log(values);
     dispatch(productActions.addReview({ productID, review: values }));
   };
-  console.log(reviews);
   return (
     <Layout style={{ minHeight: "70vh" }} id="review-form">
       <Divider orientation="left" plain>

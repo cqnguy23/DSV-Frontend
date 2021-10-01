@@ -11,6 +11,7 @@ const BreadCrumb = ({ id, name }) => {
     "/products/men": "Men",
     "/products/boys": "Boys",
     "/products/girls": "Girls",
+    "/products/all": "All",
   };
   if (id) breadcrumbNameMap["/products/" + gender + "/" + id] = name;
   const pathSnippets = location.pathname

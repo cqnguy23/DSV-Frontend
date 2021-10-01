@@ -38,7 +38,6 @@ const adminReducer = (state = initialState, action) => {
       return { ...state, loading: false };
 
     case types.ADMIN_LOGOUT_REQUEST:
-      console.log("Logged out");
       return { ...state, loading: true };
     case types.ADMIN_LOGOUT_SUCCESS:
       localStorage.removeItem("loggedInAdmin");

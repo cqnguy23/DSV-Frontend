@@ -14,7 +14,7 @@ const FooterComponent = () => {
       <Content>
         <Row className="footer-row first-row">
           <Col span={2}>
-            <img alt="icon" src={icon} style={{ height: "20px" }} />
+            <img alt="icon" src={icon} style={{ width: "100px" }} />
           </Col>
           <Col span={10} className="footer-links-group">
             <a href="/#">Home</a>

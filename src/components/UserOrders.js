@@ -26,7 +26,6 @@ const UserOrders = () => {
   const handleCancelOrder = (orderID) => {
     dispatch(userActions.cancelOrder(orderID));
   };
-  console.log(orders);
   return (
     <Row>
       <Col style={{ minHeight: "550px", width: "100%" }}>

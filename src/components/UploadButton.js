@@ -18,7 +18,6 @@ const UploadButton = () => {
     console.log(err);
   };
   const handleOnFileLoad = async (data) => {
-    console.log(data);
     const products = data.map((csvData) => {
       return {
         id: csvData.data["Product ID"],

@@ -69,14 +69,12 @@ const AdminOrdersPage = () => {
       );
     }
   }, [dispatch, page, dateRange, limit, searchKey]);
-  console.log(orders);
   const handleEditOrderStatus = (id, status) => {
     dispatch(orderActions.updateOrder(id, status));
   };
   const handleSearch = (e) => {
     setPage(1);
     setSearchKey(e.target.value);
-    console.log(e.target.value);
   };
   const handleDateRangeChange = (dates, dateStrings) => {
     if (!dates) {
@@ -104,7 +102,6 @@ const AdminOrdersPage = () => {
 
       const resp = await api.get(url);
       const exportedOrders = await resp.data;
-      console.log(exportedOrders);
       const csvData = exportedOrders.map((order) => {
         return {
           id: order._id.slice(-7).toUpperCase(),

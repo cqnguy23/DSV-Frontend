@@ -17,11 +17,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ToggleButton from "@mui/material/ToggleButton";
 import ConditionalWrapper from "../components/ConditionalWrapper";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import { ClipLoader } from "react-spinners";
 import BreadCrumb from "../components/BreadCrumb";
 import productsAction from "../redux/actions/products.actions";
+
 const ProductsPage = () => {
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
   const dispatch = useDispatch();
   const history = useHistory();
   const { SubMenu } = Menu;
@@ -36,6 +40,8 @@ const ProductsPage = () => {
 
   const limit = 20;
   const params = useParams();
+  const query = useQuery();
+  const search = query.get("search");
   const gender = params.gender;
   const [page, setPage] = useState(initPage);
   const [sizes, setSizes] = useState();
@@ -50,16 +56,12 @@ const ProductsPage = () => {
   };
   const handleCategory = (event) => {
     setPage(1);
-    console.log(event.key);
     setCategory(event.key);
   };
   const onItemSelect = ({ item, key, keyPath, selectedKeys, domEvent }) => {
     setBrands(selectedKeys);
   };
   const onItemDeselect = ({ item, key, keyPath, selectedKeys, domEvent }) => {
-    console.log(item);
-    console.log(key);
-    console.log(keyPath);
     setBrands(selectedKeys);
   };
   const resetPage = () => {
@@ -147,6 +149,7 @@ const ProductsPage = () => {
         page,
         limit,
         gender,
+        searchKey: search,
         category,
         sortType,
         sizes,
@@ -165,13 +168,13 @@ const ProductsPage = () => {
     sizes,
     colors,
     brands,
+    search,
   ]);
   useEffect(() => {
     if (genderRedux !== gender) {
       resetPage();
     }
   }, [gender, genderRedux]); //reset page when switch to different gender
-  console.log(availableColors);
   return (
     <Layout className="products-page">
       <BreadCrumb />

@@ -14,7 +14,6 @@ userActions.login =
         password,
       });
       let user = await resp.data.user;
-      console.log(user);
       const accessToken = await resp.data.accessToken;
       user.accessToken = await accessToken;
       dispatch({ type: types.USER_LOGIN_SUCCESS, payload: user });
@@ -46,7 +45,6 @@ userActions.resgister =
       toastAction.success("Registration Success!");
 
       setIsRegisterModalVisible(false);
-      // console.log(user);
     } catch (err) {
       dispatch({ type: types.USER_REGISTER_FAILURE, payload: err });
       toastAction.error("Registration Failed!");
@@ -58,11 +56,8 @@ userActions.getUserOrders = () => async (dispatch) => {
     let url = "/order/user";
     const resp = await api.get(url);
     const orders = await resp.data;
-    console.log({ orders });
     dispatch({ type: types.USER_GET_ORDER_SUCCESS, payload: orders });
     // toastAction.success("Registration Success!");
-
-    // console.log(user);
   } catch (err) {
     dispatch({ type: types.USER_GET_ORDER_FAILURE, payload: err });
     toastAction.error("Get Orders Failed!");
@@ -74,7 +69,6 @@ userActions.cancelOrder = (orderID) => async (dispatch) => {
     let url = "/order/cancellation/" + orderID;
     const resp = await api.patch(url);
     const orders = await resp.data;
-    console.log({ orders });
     dispatch({ type: types.USER_CANCEL_ORDER_SUCCESS, payload: orders });
     // toastAction.success("Registration Success!");
 
@@ -94,13 +88,11 @@ userActions.logout = () => async (dispatch) => {
       "Bearer ",
       ""
     );
-    console.log("token", token);
     const url = "/auth/logout";
     const resp = await api.post(url, {
       token,
     });
     const message = resp.data;
-    console.log("message", message);
     delete api.defaults.headers.common["authorization"];
 
     dispatch({ type: types.USER_LOGOUT_SUCCESS, payload: null });

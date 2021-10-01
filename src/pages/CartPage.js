@@ -22,11 +22,13 @@ const CartPage = () => {
   };
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: "450px" }}>
       <Content className="bg-white">
-        <Row className="cart-header">My Bag</Row>
+        <Row className="cart-header">My Cart</Row>
         {cartProducts.length === 0 ? (
-          <div>Please select a product to proceed!</div>
+          <div style={{ fontSize: "16px" }}>
+            Please select a product to proceed!
+          </div>
         ) : (
           <Row className="cart-page-products-row">
             <Col span={16}>

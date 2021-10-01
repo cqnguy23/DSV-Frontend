@@ -27,7 +27,12 @@ const NavBar = () => {
   const history = useHistory();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const userName = useSelector((state) => state.user.name);
-  const onSearch = () => {};
+  const onSearch = (value) => {
+    if (value) history.push("/products/all?search=" + value);
+    else {
+      history.push("/products/all");
+    }
+  };
   const onMenuClick = (gender) => {
     history.push("/products/" + gender);
   };
@@ -53,19 +58,7 @@ const NavBar = () => {
   useEffect(() => {
     dispatch(productActions.getCategories());
   }, [dispatch]);
-  const menCategories = categories.filter((category) =>
-    category.gender.includes("men")
-  );
-  // const womenCategories = categories.filter((category) =>
-  //   category.gender.includes("women")
-  // );
-  // const boysCategories = categories.filter((category) =>
-  //   category.gender.includes("boys")
-  // );
-  // const girlsCategories = categories.filter((category) =>
-  //   category.gender.includes("girls")
-  // );
-  console.log(menCategories);
+
   return (
     <>
       <Layout className="header-layout">
@@ -84,7 +77,8 @@ const NavBar = () => {
                 <img
                   alt="logo"
                   src={logo}
-                  height="20px"
+                  width="100px"
+                  // width="20px"
                   className="cursor-pointer"
                 />
               </Link>
@@ -173,27 +167,14 @@ const NavBar = () => {
           {genderArray.map((gender, idx) => {
             return (
               <Col className="header-col" span={2} key={idx}>
-                <Dropdown
-                  overlay={
-                    <Menu
-                      onClick={() => {
-                        onMenuClick(gender);
-                      }}
-                      style={{ display: "flex" }}
-                    >
-                      <Menu.Item key="1">All</Menu.Item>
-                    </Menu>
-                  }
-                  placement="bottomCenter"
+                <Button
+                  type="text"
+                  onClick={() => {
+                    onMenuClick(gender);
+                  }}
                 >
-                  <a
-                    href="/#"
-                    className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    {formatUtils.capitalizeFirstLetter(gender)} <DownOutlined />
-                  </a>
-                </Dropdown>
+                  {formatUtils.capitalizeFirstLetter(gender)} <DownOutlined />
+                </Button>
               </Col>
             );
           })}

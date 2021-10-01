@@ -31,7 +31,6 @@ cartActions.removeItem = (productID, size) => async (dispatch) => {
   dispatch({ type: types.DELETE_CART_ITEM_REQUEST, payload: null });
   try {
     const data = { productID, size };
-    console.log(data);
     dispatch({ type: types.DELETE_CART_ITEM_SUCCESS, payload: data });
   } catch (err) {
     console.log(err);

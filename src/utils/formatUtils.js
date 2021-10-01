@@ -32,7 +32,6 @@ formatUtils.uploadImage = (
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log({ result });
           const imgURL = result.info.url;
           const newUrls = [...imgUrls];
           newUrls[idx] = imgURL;
@@ -54,7 +53,6 @@ formatUtils.deleteImage = async (deleteToken) => {
         deleteToken
     );
     const data = resp.data;
-    console.log({ data });
   } catch (err) {
     console.log(err);
   }

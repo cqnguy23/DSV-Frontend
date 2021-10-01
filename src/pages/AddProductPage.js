@@ -58,7 +58,6 @@ const AddProductPage = () => {
     dispatch(productActions.addProduct(values));
     form.resetFields();
     setImgUrls(["", "", "", ""]);
-    console.log(values);
   };
   const onReset = () => {
     form.resetFields();
@@ -106,8 +105,6 @@ const AddProductPage = () => {
   for (const color of colors) {
     colorSelect.push(<Option key={color}>{color}</Option>);
   }
-  console.log(imgUrls);
-  console.log(deleteTokens);
   return (
     <Layout className="site-layout admin-dashboard-layout">
       <Header className="site-layout-background admin-dashboard-header">
@@ -195,10 +192,10 @@ const AddProductPage = () => {
                         </Button>
                       </div>
                     ) : (
-                      <div style={{ position: "relative" }}>
+                      <div style={{ position: "relative", width: "12vw" }}>
                         <img
                           height="270px"
-                          width="12vw"
+                          width="100%"
                           alt="img"
                           src={img}
                           style={{ objectFit: "cover" }}

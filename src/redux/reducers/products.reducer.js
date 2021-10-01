@@ -31,7 +31,6 @@ const productsReducer = (state = initialState, action) => {
     case types.ADD_REVIEW_FAILURE:
       return { ...state, loading: false };
     case types.GET_PRODUCTS_SUCCESS:
-      console.log("Get products sucess");
       return {
         ...state,
         loading: false,

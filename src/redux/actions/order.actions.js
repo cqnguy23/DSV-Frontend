@@ -31,7 +31,6 @@ orderActions.getOrders =
       if (search) {
         url += "&search=" + search;
       }
-      console.log(search);
       const resp = await api.get(url);
       const data = await resp.data;
       dispatch({ type: types.GET_ORDERS_SUCCESS, payload: data });
@@ -53,7 +52,6 @@ orderActions.updateOrder = (id, status) => async (dispatch) => {
     const resp = await api.patch(url);
     const data = await resp.data;
     const order = await data.order;
-    console.log({ order });
     dispatch({ type: types.UPDATE_ORDER_SUCCESS, payload: order });
     toastAction.success("Order status updated.");
   } catch (err) {

@@ -26,12 +26,12 @@ const UserPage = () => {
             <Radio.Button value="orders" onClick={() => handleNavigate("/")}>
               My Orders
             </Radio.Button>
-            <Radio.Button
+            {/* <Radio.Button
               value="password"
               onClick={() => handleNavigate("/password")}
             >
               Change Password
-            </Radio.Button>
+            </Radio.Button> */}
           </Radio.Group>
         </Col>
         <Col span={20}>

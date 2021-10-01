@@ -28,7 +28,6 @@ const AdminOverviewPage = () => {
     getOrders();
     getCategories();
   }, []);
-  console.log(orders);
   return (
     <Layout
       className="site-layout admin-dashboard-layout"

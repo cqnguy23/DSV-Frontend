@@ -41,17 +41,14 @@ productActions.getProducts =
       }
       if (sizes) {
         const size = sizes.filter((i) => i).join(",");
-        console.log(size);
         url += `&size=${size}`;
       }
       if (colors) {
         const color = colors.filter((i) => i).join(",");
-        console.log(color);
         url += `&color=${color}`;
       }
       if (brands) {
         const brand = brands.filter((i) => i).join(",");
-        console.log(brand);
         url += `&brand=${brand}`;
       }
       const resp = await api.get(url);
@@ -82,7 +79,6 @@ productActions.deleteProduct = (id) => async (dispatch) => {
     let url = "/products/" + id;
     const resp = await api.delete(url);
     const data = await resp.data;
-    console.log("delete", data);
     dispatch({ type: types.DELETE_PRODUCT_SUCCESS, payload: data });
     toastAction.success("Product deleted succesfully.");
   } catch (err) {
@@ -98,7 +94,6 @@ productActions.editProduct = (id, size) => async (dispatch) => {
       size,
     });
     const data = await resp.data;
-    console.log("edit", data);
 
     dispatch({ type: types.EDIT_PRODUCT_SUCCESS, payload: data });
     toastAction.success("Product quantity updated.");
@@ -126,7 +121,6 @@ productActions.addProduct = (product) => async (dispatch) => {
     let url = "/products";
     const resp = await api.post(url, product);
     const data = await resp.data;
-    console.log(data);
     dispatch({ type: types.ADD_PRODUCT_SUCCESS, payload: data });
     toastAction.success("Product added!");
   } catch (err) {
@@ -139,7 +133,6 @@ productActions.importProducts = (products) => async (dispatch) => {
   try {
     const resp = await api.patch("/products/", { products: products });
     const updatedProducts = await resp.data.products;
-    console.log(updatedProducts);
     dispatch({ type: types.IMPORT_PRODUCT_SUCCESS, payload: updatedProducts });
     toastAction.success("Products updated!");
   } catch (err) {
@@ -154,10 +147,8 @@ productActions.addReview =
     dispatch({ type: types.ADD_REVIEW_REQUEST, payload: null });
     try {
       let url = "/review/" + productID;
-      console.log(review);
       const resp = await api.post(url, review);
       const data = await resp.data;
-      console.log(data);
       dispatch({ type: types.ADD_REVIEW_SUCCESS, payload: data });
       toastAction.success("Review added!");
     } catch (err) {

@@ -14,7 +14,7 @@ const HomePage = () => {
   };
   return (
     <Layout className="homepage-layout">
-      <Row className="position-relative min-height-1000">
+      <Row className="position-relative min-height-400">
         <img alt="cover" width="100%" height="100%" src={cover} />
         <div className="top-right">OUTFIT OF THE WEEK</div>
         <Button
@@ -35,7 +35,7 @@ const HomePage = () => {
           marginTop: "10px",
         }}
       >
-        <Col className="position-relative width-24 min-height-280">
+        <Col className="position-relative width-24 min-height-420">
           <img alt="men" width="100%" height="100%" src={menImg} />
           <div className="bottom-centered">
             <div>Men</div>

@@ -186,7 +186,6 @@ const AdminProductsPage = () => {
 
       const resp = await api.get(url);
       const exportedProducts = await resp.data;
-      console.log(exportedProducts);
       const csvData = exportedProducts.map((product) => {
         return {
           id: product._id,
@@ -289,7 +288,7 @@ const AdminProductsPage = () => {
               </Col>
               <Col span={3}>SOLD</Col>
               <Col span={6}>DATE ADDED</Col>
-              <Col span={4}>PROFIT ($)</Col>
+              <Col span={4}>PRICE</Col>
               <Col span={2}></Col>
             </Row>
             <Divider />
@@ -340,9 +339,7 @@ const AdminProductsPage = () => {
                   <Col span={6}>
                     {formatUtils.convertToCalendarDate(product.createdAt)}
                   </Col>
-                  <Col span={4}>
-                    {(product.price * product.sold).toFixed(2)}
-                  </Col>
+                  <Col span={4}>${product.price.toFixed(2)}</Col>
 
                   <Col span={2}>
                     <Dropdown
