@@ -40,7 +40,6 @@ const NavBar = () => {
     history.push("/user/");
   };
   const genderArray = ["men", "women", "boys", "girls"];
-  const categories = useSelector((state) => state.products.categories);
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
   const [isLogInModalVisible, setIsLogInModalVisible] = useState(false);
   const products = useSelector((state) => state.cart.products);

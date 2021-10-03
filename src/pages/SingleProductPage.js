@@ -1,14 +1,4 @@
-import {
-  Button,
-  Col,
-  Image,
-  Radio,
-  Rate,
-  Row,
-  Layout,
-  Divider,
-  Tooltip,
-} from "antd";
+import { Button, Col, Image, Radio, Rate, Row, Layout, Divider } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { QuantityPicker } from "react-qty-picker";
 

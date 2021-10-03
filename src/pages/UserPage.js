@@ -1,7 +1,4 @@
 import { Col, Layout, Radio, Row } from "antd";
-import { Content, Header } from "antd/lib/layout/layout";
-import Sider from "antd/lib/layout/Sider";
-import Footer from "rc-table/lib/Footer";
 import React from "react";
 import { Route, Switch, useHistory } from "react-router";
 import UserOrders from "../components/UserOrders";

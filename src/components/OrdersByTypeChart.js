@@ -1,5 +1,5 @@
 import React from "react";
-import { Pie, PolarArea, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 const OrdersByTypeChart = ({ orders, categories }) => {
   const categoriesName = categories.map((category) => category.name);

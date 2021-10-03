@@ -52,7 +52,7 @@ formatUtils.deleteImage = async (deleteToken) => {
       "https://api.cloudinary.com/v1_1/chuong-nguyen/delete_by_token?token=" +
         deleteToken
     );
-    const data = resp.data;
+    console.log(resp);
   } catch (err) {
     console.log(err);
   }

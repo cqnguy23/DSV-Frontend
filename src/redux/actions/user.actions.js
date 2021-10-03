@@ -92,7 +92,7 @@ userActions.logout = () => async (dispatch) => {
     const resp = await api.post(url, {
       token,
     });
-    const message = resp.data;
+    console.log(resp);
     delete api.defaults.headers.common["authorization"];
 
     dispatch({ type: types.USER_LOGOUT_SUCCESS, payload: null });

@@ -1,13 +1,11 @@
 import { Col, Layout, Row } from "antd";
 import { Content, Header } from "antd/lib/layout/layout";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import api from "../api";
 import AdminInfo from "../components/AdminInfo";
 import OrdersByDateChart from "../components/OrdersByDateChart";
 import OrdersByGenderChart from "../components/OrdersByGenderChart";
 import OrdersByTypeChart from "../components/OrdersByTypeChart";
-import orderActions from "../redux/actions/order.actions";
 
 const AdminOverviewPage = () => {
   const [orders, setOrders] = useState([]);

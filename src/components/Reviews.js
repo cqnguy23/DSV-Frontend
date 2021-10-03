@@ -1,5 +1,4 @@
 import { Button, Col, Divider, Form, Input, Layout, Rate, Row } from "antd";
-import { Content } from "antd/lib/layout/layout";
 import moment from "moment";
 import React from "react";
 import { useDispatch } from "react-redux";
