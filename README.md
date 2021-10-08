@@ -1,6 +1,6 @@
 ## Klothz Ecommerce Website
 
-Live-demo website: <a href="https://klothz.netlify.app/" target="_blank">Klothz</a>
+Live-demo website: https://klothz.netlify.app/
 
 • Developed a fullstack ecommerce website for with multi-role system for buying and selling clothes. Utilizing MERN stack, ChartJs and Ant Design frameworks, the project not only delivered a user-friendly platform
 for consumers to buy clothes but also provided a useful management tool for the business owner to keep track of the orders and products.
